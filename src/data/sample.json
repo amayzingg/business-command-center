@@ -1,0 +1,47 @@
+{
+  "asOf": "2026-10-20",
+  "business": {
+    "name": "Atlântico Studio",
+    "currency": "EUR"
+  },
+  "revenue": {
+    "monthly": [
+      { "month": "2025-11", "amount": 18400 },
+      { "month": "2025-12", "amount": 21900 },
+      { "month": "2026-01", "amount": 16200 },
+      { "month": "2026-02", "amount": 17800 },
+      { "month": "2026-03", "amount": 20500 },
+      { "month": "2026-04", "amount": 22100 },
+      { "month": "2026-05", "amount": 19700 },
+      { "month": "2026-06", "amount": 23400 },
+      { "month": "2026-07", "amount": 24800 },
+      { "month": "2026-08", "amount": 22600 },
+      { "month": "2026-09", "amount": 26300 },
+      { "month": "2026-10", "amount": 27900 }
+    ]
+  },
+  "leads": [
+    { "id": "L-101", "name": "Acme Logistics", "stage": "proposal", "value": 12000, "source": "referral", "lastContact": "2026-10-17" },
+    { "id": "L-102", "name": "Bluebird Cafe", "stage": "new", "value": 2500, "source": "website", "lastContact": "2026-10-19" },
+    { "id": "L-103", "name": "Cedar Health", "stage": "negotiation", "value": 18000, "source": "linkedin", "lastContact": "2026-10-14" },
+    { "id": "L-104", "name": "Driftwood Realty", "stage": "qualified", "value": 6500, "source": "website", "lastContact": "2026-10-10" },
+    { "id": "L-105", "name": "Ember Fitness", "stage": "won", "value": 4800, "source": "referral", "lastContact": "2026-10-08" },
+    { "id": "L-106", "name": "Fjord Outdoor", "stage": "lost", "value": 9000, "source": "event", "lastContact": "2026-09-29" },
+    { "id": "L-107", "name": "Granite Legal", "stage": "qualified", "value": 15000, "source": "linkedin", "lastContact": "2026-10-16" },
+    { "id": "L-108", "name": "Harbor Books", "stage": "new", "value": 1800, "source": "event", "lastContact": "2026-10-20" }
+  ],
+  "tasks": [
+    { "id": "T-1", "title": "Send Acme proposal revisions", "due": "2026-10-21", "priority": "high", "done": false },
+    { "id": "T-2", "title": "Invoice Ember Fitness", "due": "2026-10-20", "priority": "high", "done": false },
+    { "id": "T-3", "title": "Follow up with Driftwood Realty", "due": "2026-10-23", "priority": "medium", "done": false },
+    { "id": "T-4", "title": "Quarterly tax estimate", "due": "2026-10-31", "priority": "medium", "done": false },
+    { "id": "T-5", "title": "Update portfolio case study", "due": "2026-10-28", "priority": "low", "done": false },
+    { "id": "T-6", "title": "Renew domain names", "due": "2026-10-15", "priority": "low", "done": true }
+  ],
+  "invoices": [
+    { "id": "INV-2041", "client": "Cedar Health", "amount": 6000, "issued": "2026-09-15", "due": "2026-10-15", "status": "overdue" },
+    { "id": "INV-2042", "client": "Acme Logistics", "amount": 4000, "issued": "2026-10-01", "due": "2026-10-31", "status": "sent" },
+    { "id": "INV-2043", "client": "Ember Fitness", "amount": 4800, "issued": "2026-10-08", "due": "2026-11-07", "status": "draft" },
+    { "id": "INV-2039", "client": "Bluebird Cafe", "amount": 1200, "issued": "2026-09-01", "due": "2026-10-01", "status": "paid" }
+  ]
+}
