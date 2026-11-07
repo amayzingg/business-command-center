@@ -3,7 +3,8 @@
 Build a private, mobile-friendly dashboard for a small business.
 
 ## Stack
-- Vite + React 19 + Tailwind CSS v4 (via `@tailwindcss/vite`), plain JavaScript (JSX).
+- **Vite 8** (`vite@^8`, `@vitejs/plugin-react@^6`) + React 19 + Tailwind CSS v4 (via
+  `@tailwindcss/vite`), plain JavaScript (JSX). Needs Node 22 LTS+ (20.19+ minimum).
 - Static site, deployed to Cloudflare Pages (see `DEPLOY.md`).
 - No UI or charting libraries.
 
