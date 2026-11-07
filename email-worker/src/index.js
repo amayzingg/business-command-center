@@ -8,16 +8,25 @@ import bank from '../.generated/bank.json'
 import brand from '../../src/brand.json'
 import { fetchStripeData } from '../../shared/stripe.js'
 import { buildSummary } from '../../shared/summary.js'
+import { readUploads } from '../../shared/datasets.js'
 import { renderEmail } from './render.js'
 
 // Same data the dashboard shows: sample data + imported files + live APIs.
 async function loadData(env) {
-  const data = { ...sample, bank }
+  // Uploaded CSVs (from the dashboard, in KV) win over imported files and the sample.
+  const up = env.BANK ? await readUploads(env.BANK).catch(() => ({ uploads: {} })) : { uploads: {} }
+  const { uploads, ...uploadedData } = up
+  const data = { ...sample, bank, ...uploadedData }
+  const bankData = data.bank
   const notes = [
-    bank.sample
-      ? 'Cash figures are sample bank data (import yours with /update-bank).'
-      : `Cash figures from ${bank.source}, imported ${(bank.importedAt ?? '').slice(0, 10) || 'earlier'} (last transaction ${bank.asOf}).`,
+    bankData.sample
+      ? 'Cash figures are sample bank data (upload a CSV on the dashboard, or use /update-bank).'
+      : `Cash figures from ${bankData.source}, ${bankData.uploaded ? 'uploaded' : 'imported'} ${(bankData.importedAt ?? '').slice(0, 10) || 'earlier'} (last transaction ${bankData.asOf}).`,
   ]
+  const others = Object.entries(uploads).filter(([k]) => k !== 'bank')
+  if (others.length) {
+    notes.push(`Uploaded: ${others.map(([, u]) => `${u.label} (${u.source}, ${u.uploadedAt.slice(0, 10)})`).join('; ')}.`)
+  }
   if (env.STRIPE_SECRET_KEY) {
     try {
       Object.assign(data, await fetchStripeData(env.STRIPE_SECRET_KEY))

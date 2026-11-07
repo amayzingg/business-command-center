@@ -34,10 +34,17 @@ Branch from `starter` (not `main`) so the app is there. Give each copy its own p
 npm run deploy          # build + deploy to production (--branch main)
 ```
 
-**Update bank data:** `/update-bank data/my-bank.csv` (Claude Code) or `$update-bank`
-(Codex). It runs `npm run import:bank -- <file>`, checks Cash flow, then `npm run deploy` and
-`npm run email:deploy`. The CSV and `src/data/bank.json` are git-ignored; until you import,
-the card shows **Sample bank data**.
+**Update bank data, two ways:**
+- **From the dashboard (any device):** click **Upload CSV** in the header (bank statement, tasks, leads or invoices; it detects which from the columns and asks you to confirm). It's stored
+  privately in Cloudflare (behind your login) and used by the dashboard and the weekly
+  email right away, with no redeploy. The × on an upload chip goes back to the imported/sample data.
+  One-time setup: `npm run setup:bank-store`, then `npm run deploy && npm run email:deploy`.
+- **From your agent:** `/update-bank data/my-bank.csv` (Claude Code) or `$update-bank`
+  (Codex). It imports into `src/data/bank.json` (git-ignored), checks Cash flow, then
+  redeploys. Use this one if your bank's columns need mapping (the upload expects
+  `Date, Description, Category, Amount, Balance`).
+
+Until you import or upload, the card shows **Sample bank data**.
 
 **Real data** (details in `REAL-DATA.md`; keys go in the root `.dev.vars`):
 ```bash

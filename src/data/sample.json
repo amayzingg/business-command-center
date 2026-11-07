@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-20",
+  "asOf": "2026-11-13",
   "business": {
     "name": "Venture Voice",
     "currency": "EUR"
@@ -31,12 +31,13 @@
     { "id": "L-108", "name": "Harbor Books", "stage": "new", "value": 1800, "source": "event", "lastContact": "2026-10-20" }
   ],
   "tasks": [
-    { "id": "T-1", "title": "Send Acme proposal revisions", "due": "2026-10-21", "priority": "high", "done": false },
-    { "id": "T-2", "title": "Invoice Ember Fitness", "due": "2026-10-20", "priority": "high", "done": false },
-    { "id": "T-3", "title": "Follow up with Driftwood Realty", "due": "2026-10-23", "priority": "medium", "done": false },
-    { "id": "T-4", "title": "Quarterly tax estimate", "due": "2026-10-31", "priority": "medium", "done": false },
-    { "id": "T-5", "title": "Update portfolio case study", "due": "2026-10-28", "priority": "low", "done": false },
-    { "id": "T-6", "title": "Renew domain names", "due": "2026-10-15", "priority": "low", "done": true }
+    { "id": "T-1", "title": "Send Acme proposal revisions", "due": "2026-11-13", "priority": "high", "done": false },
+    { "id": "T-2", "title": "Invoice Ember Fitness", "due": "2026-11-13", "priority": "high", "done": false },
+    { "id": "T-3", "title": "Follow up with Driftwood Realty", "due": "2026-11-13", "priority": "medium", "done": false },
+    { "id": "T-4", "title": "Quarterly tax estimate", "due": "2026-11-13", "priority": "medium", "done": false },
+    { "id": "T-5", "title": "Update portfolio case study", "due": "2026-11-13", "priority": "low", "done": false },
+    { "id": "T-6", "title": "Renew domain names", "due": "2026-10-15", "priority": "low", "done": true },
+    { "id": "T-7", "title": "Chase Cedar Health overdue invoice", "due": "2026-11-13", "priority": "high", "done": false }
   ],
   "invoices": [
     { "id": "INV-2041", "client": "Cedar Health", "amount": 6000, "issued": "2026-09-15", "due": "2026-10-15", "status": "overdue" },

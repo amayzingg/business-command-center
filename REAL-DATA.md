@@ -11,7 +11,7 @@ Pick **one** for the workshop; they all feed the same `data` object your widgets
 > `src/data/*.json` into `data` by file name, preferring `<name>.json` over
 > `<name>.sample.json`; copy `src/liveData.js` from `starter` and use its
 > `{ data, refresh, refreshing }` with the header's live-source chips and Refresh button;
-> add the `CashFlow` widget from `starter`."
+> add the `CashFlow` widget and `src/components/DataUpload.jsx` (in the header) from `starter`."
 > Or use `starter`, where it's already done.
 
 | Example | Needs | Live? |
@@ -29,6 +29,20 @@ ask your agent to. On Windows, Notepad saves `.dev.vars.txt`, which won't work.
 - `npm run secrets:push` uploads it to Cloudflare for the dashboard **and** the email.
   Set your Pages project name first: `package.json` → `"config": { "pagesProject": "…" }`.
 - Never put keys in `src/`, and never commit `.dev.vars`.
+
+## Upload CSVs from the dashboard (any device)
+One-time setup: `npm run setup:bank-store` (creates a private Cloudflare KV store and links it
+to the dashboard and the email), then `npm run deploy && npm run email:deploy`.
+
+Then click **Upload CSV** in the header and pick a bank statement, tasks, leads or invoices
+CSV. It works out the type from the column names (common variations like "Task", "Due
+Date" or "Company" are fine; dates as 2026-11-14 or 14/11/2026). It shows **"Looks like
+Tasks · 7 rows"** for you to confirm or change, then saves. If it can't tell, it says so and
+won't save until you pick a type that fits. Uploads replace that table on the dashboard and
+in the weekly email (live Stripe still wins for invoices). Remove one with the × on its
+chip. Only the parsed rows (for bank statements, the summary) are stored, behind your
+Access login. Example files: `data/templates/`. Add a new table type in
+`shared/datasets.js`.
 
 ## A. Bank statement CSV
 Easiest: **`/update-bank data/my-bank.csv`** (Claude Code) or **`$update-bank`** (Codex)
