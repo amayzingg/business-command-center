@@ -42,6 +42,11 @@ Same ideas, Codex's own files. See `CHEATSHEET.md` for the side-by-side.
 ## Real data
 Working examples (bank CSV, Stripe test mode, weekly email) and a recipe for
 adding your own source are in `REAL-DATA.md`.
+- **Bank statement from the dashboard:** after `npm run setup:bank-store` and a deploy, use
+  **Upload CSV** in the header on any device: bank statement, tasks, leads or invoices,
+  detected from the column names (templates in `data/templates/`). If your bank's columns differ, ask:
+  "My bank CSV has columns <paste the header row>. Update COLUMNS in shared/bank.js so
+  uploads and imports read it, then build and deploy."
 - **Bank statement:** export a CSV into `data/`, then run **`/update-bank data/my-bank.csv`**
   (Claude Code) or **`$update-bank`** (Codex). It imports the CSV, adapts the column mapping if
   your bank's format differs (asking you first), checks the Cash flow card, and

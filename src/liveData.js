@@ -4,7 +4,9 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 // sample data. Each returns a partial `data` object, e.g. { invoices: [...], live: {...} }.
 // If a route isn't available (plain `npm run dev`, no key set), the dashboard quietly
 // keeps the sample data.
-const SOURCES = ['/api/stripe']
+// Only responses with a `live` key count as live (they make "today" follow the clock);
+// /api/uploads returns uploaded CSV data without it. Later sources win (live Stripe over an uploaded invoices CSV).
+const SOURCES = ['/api/uploads', '/api/stripe']
 
 const REFRESH_EVERY_MS = 5 * 60 * 1000 // while the tab is visible
 const MIN_GAP_MS = 15 * 1000 // don't refetch more often than this on tab switches
@@ -30,7 +32,7 @@ async function fetchLive(base) {
   })
   // With live data, "today" is now: widgets that count days (due this week, overdue)
   // use data.asOf, so it must follow the clock, not the sample file's date.
-  if (parts.length > 0) {
+  if (Object.keys(merged.live).length > 0) {
     merged.sampleAsOf = base.asOf
     merged.asOf = localDay(new Date())
   }

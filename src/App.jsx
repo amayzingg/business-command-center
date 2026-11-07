@@ -1,6 +1,7 @@
 import sample from './data/sample.json'
 import { useBrand } from './brand.js'
 import { useLiveData } from './liveData.js'
+import DataUpload from './components/DataUpload.jsx'
 import BrandSettings from './components/BrandSettings.jsx'
 import BrandMark from './components/BrandMark.jsx'
 
@@ -83,6 +84,7 @@ export default function App() {
                 <span className={refreshing ? 'inline-block animate-spin' : 'inline-block'}>↻</span>
                 {refreshing ? 'Refreshing' : 'Refresh'}
               </button>
+              <DataUpload onDone={() => refresh()} uploads={data.uploads} />
             </div>
           </div>
         </div>

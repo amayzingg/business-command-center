@@ -13,6 +13,7 @@
     "email:dev": "node scripts/pick-bank.mjs && node -e \"const f=require('fs'); if (f.existsSync('.dev.vars')) f.copyFileSync('.dev.vars','email-worker/.dev.vars')\" && npx wrangler dev --config email-worker/wrangler.toml --var ALLOW_PREVIEW:1 --test-scheduled --port 8790",
     "email:deploy": "node scripts/pick-bank.mjs && npx wrangler deploy --config email-worker/wrangler.toml",
     "deploy": "node scripts/deploy.mjs",
+    "setup:bank-store": "node scripts/setup-bank-store.mjs",
     "secrets:push": "node scripts/push-secrets.mjs"
   },
   "config": {

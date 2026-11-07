@@ -100,11 +100,11 @@ export default function CashFlow({ data }) {
             <span className="rounded bg-amber-100 px-1 font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-300">
               Sample bank data
             </span>{' '}
-            Import yours with /update-bank or npm run import:bank
+            Use “Upload CSV” at the top, or /update-bank
           </>
         ) : (
           <>
-            Imported{' '}
+            {bank.uploaded ? 'Uploaded' : 'Imported'}{' '}
             {bank.importedAt
               ? new Date(bank.importedAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })
               : ''}{' '}
