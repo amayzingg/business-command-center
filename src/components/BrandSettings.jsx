@@ -37,6 +37,8 @@ export default function BrandSettings({ brand, rawName, placeholder, onChange, o
             />
           </label>
 
+          <LogoField logo={brand.logo} onChange={(logo) => onChange({ logo, logoDark: '' })} />
+
           <div className="mt-3 grid grid-cols-2 gap-3">
             <ColorField label="Primary" value={brand.primary} onChange={(v) => onChange({ primary: v })} />
             <ColorField label="Accent" value={brand.accent} onChange={(v) => onChange({ accent: v })} />
@@ -79,6 +81,55 @@ export default function BrandSettings({ brand, rawName, placeholder, onChange, o
           </p>
         </div>
       )}
+    </div>
+  )
+}
+
+// Logos picked here are stored in this browser (as a data URL), so keep them small.
+// For a logo everyone sees, put the file in public/ and set "logo" in src/brand.json.
+const MAX_LOGO_BYTES = 200 * 1024
+
+function LogoField({ logo, onChange }) {
+  const [error, setError] = useState('')
+
+  function pick(e) {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    if (file.size > MAX_LOGO_BYTES) {
+      setError('Logo is over 200 KB. Use a smaller PNG/SVG, or put it in public/ and brand.json.')
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = () => {
+      setError('')
+      onChange(reader.result)
+    }
+    reader.readAsDataURL(file)
+  }
+
+  return (
+    <div className="mt-3">
+      <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Logo (optional)</p>
+      <div className="mt-1 flex items-center gap-2">
+        {logo && (
+          <img src={logo} alt="" className="h-8 w-auto max-w-20 rounded border border-slate-200 object-contain dark:border-slate-700" />
+        )}
+        <label className="cursor-pointer rounded-md border border-slate-300 px-2 py-1 text-xs text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800">
+          {logo ? 'Change' : 'Upload'}
+          <input type="file" accept="image/png,image/svg+xml,image/jpeg,image/webp" onChange={pick} className="sr-only" />
+        </label>
+        {logo && (
+          <button
+            type="button"
+            onClick={() => onChange('')}
+            className="text-xs text-slate-500 underline hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+          >
+            Remove
+          </button>
+        )}
+      </div>
+      {error && <p className="mt-1 text-[11px] text-rose-600 dark:text-rose-400">{error}</p>}
     </div>
   )
 }

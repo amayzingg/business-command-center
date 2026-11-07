@@ -15,16 +15,21 @@ Build a private, mobile-friendly dashboard for a small business.
 - Light and dark mode, following the system setting.
 
 ## Branding
-- `src/brand.json` holds `{ name, primary, accent }` (hex colors). An empty `name`
-  falls back to `data.business.name`.
+- `src/brand.json` holds `{ name, primary, accent, logo, logoDark }`. Colors are hex.
+  An empty `name` falls back to `data.business.name`. `logo` is optional: a path to an
+  image in `public/` (e.g. `"/logo.svg"`). `logoDark` is an optional variant for dark mode.
 - `src/index.css` maps CSS variables `--brand` and `--brand-accent` to Tailwind colors
   with `@theme inline`, so `bg-brand`, `text-brand`, `bg-brand-accent` etc. work.
   `App.jsx` sets the variables at runtime.
-- Header shows a brand-colored badge with the name's first letter, plus a thin
-  primary→accent stripe across the top. The browser tab title uses the brand name.
-- A "Customize" button in the header opens a small panel: brand name, primary and
+- Header shows the logo if one is set (`src/components/BrandMark.jsx`, height 32px on
+  phones, 40px from `sm`). Otherwise it shows a brand-colored badge with the name's first
+  letter. A thin primary→accent stripe runs across the top. The browser tab title uses
+  the brand name.
+- A "Customize" button in the header opens a small panel: brand name, logo upload
+  (PNG/SVG/JPEG/WebP, max 200 KB, stored as a data URL) with Remove, primary and
   accent color pickers, a few presets, and "Reset to defaults". Its changes are saved
   in `localStorage` and override `brand.json` on that device only.
+- `public/logo-example.svg` is a sample logo to test with.
 - The panel lives in `src/components/` (not `src/widgets/`).
 
 ## Widgets
