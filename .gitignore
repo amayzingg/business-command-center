@@ -11,3 +11,15 @@ dist
 # Real bank exports stay on your machine (the fake sample is fine)
 data/*.csv
 !data/*.sample.csv
+
+# Imported bank data is real: never commit it (the fictional bank.sample.json is tracked)
+src/data/bank.json
+# Generated at deploy time from bank.json or bank.sample.json
+email-worker/.generated/
+
+# Google service account key files (copy the values into .dev.vars, then delete the file)
+*service-account*.json
+*serviceaccount*.json
+*-sa-key*.json
+gcp-key*.json
+secrets/
