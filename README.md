@@ -10,7 +10,7 @@ instead, switch to `main`.
 
 ## Before the workshop
 You'll need these ready (setup steps are sent separately):
-- **Node.js 22+** and **Git**
+- **Node.js 22.12 or newer** (check with `node -v`) and **Git**
 - **Claude Code** or **Codex**, installed and signed in
 - A **GitHub** account
 - A **Cloudflare** account with the free **Zero Trust** plan set up (it needs a card, but
