@@ -35,7 +35,7 @@ export default function RevenueCard({ data }) {
           <div
             key={m.month}
             title={`${m.month}: ${money.format(m.amount)}`}
-            className={`flex-1 rounded-t ${m === current ? 'bg-indigo-500' : 'bg-indigo-200 dark:bg-indigo-900'}`}
+            className={`flex-1 rounded-t ${m === current ? 'bg-brand' : 'bg-brand/25 dark:bg-brand/35'}`}
             style={{ height: `${(m.amount / max) * 100}%` }}
           />
         ))}

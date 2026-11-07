@@ -26,6 +26,10 @@ deployed as a static site to Cloudflare Pages behind Cloudflare Access.
   If a widget needs new data, add a field to `sample.json`, not a hard-coded value.
 - Style with Tailwind utility classes only; no new CSS files or UI libraries.
   Always include `dark:` variants. Must look right at phone width (~375px).
+- For highlight colors use the brand colors (`bg-brand`, `text-brand`, `bg-brand-accent`,
+  `text-brand-accent`, with opacity like `bg-brand/25`), not fixed ones like
+  `indigo-500`, so widgets follow the user's branding. Keep green/red for good/bad.
+- To change the default brand name or colors, edit `src/brand.json`.
 - No charting library: draw small charts with divs or inline SVG, like RevenueCard.
 
 ## Before you say you're done

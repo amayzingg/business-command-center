@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+/* Brand colors. Defaults come from src/brand.json; App.jsx sets these variables at
+   runtime (including any per-device overrides from the Customize panel).
+   Use them in Tailwind as bg-brand, text-brand, border-brand, bg-brand-accent, etc. */
+:root {
+  --brand: #4f46e5;
+  --brand-accent: #10b981;
+}
+
+@theme inline {
+  --color-brand: var(--brand);
+  --color-brand-accent: var(--brand-accent);
+}
+
 body {
   @apply bg-slate-100 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
 }

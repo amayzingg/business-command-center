@@ -1,4 +1,6 @@
 import data from './data/sample.json'
+import { useBrand } from './brand.js'
+import BrandSettings from './components/BrandSettings.jsx'
 
 // Every file in src/widgets/ is picked up automatically, so adding a widget
 // never means editing this file (and parallel sessions don't conflict here).
@@ -15,16 +17,31 @@ const sizeClasses = {
 }
 
 export default function App() {
+  const { brand, rawName, update, reset } = useBrand(data.business.name)
+
   return (
+    <>
+    <div className="h-1 bg-gradient-to-r from-brand to-brand-accent" />
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
-      <header className="mb-6 flex items-baseline justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">{data.business.name}</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400">Command center</p>
+      <header className="mb-6 flex items-start justify-between gap-4">
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand text-lg font-bold text-white">
+            {brand.name.charAt(0).toUpperCase()}
+          </div>
+          <div className="min-w-0">
+            <h1 className="truncate text-2xl font-semibold tracking-tight">{brand.name}</h1>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Command center · Data as of {new Date(`${data.asOf}T00:00`).toLocaleDateString()}
+            </p>
+          </div>
         </div>
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          Data as of {new Date(`${data.asOf}T00:00`).toLocaleDateString()}
-        </p>
+        <BrandSettings
+          brand={brand}
+          rawName={rawName}
+          placeholder={data.business.name}
+          onChange={update}
+          onReset={reset}
+        />
       </header>
 
       <main className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -39,5 +56,6 @@ export default function App() {
         ))}
       </main>
     </div>
+    </>
   )
 }
