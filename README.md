@@ -8,23 +8,16 @@ You're on the **`starter` branch**: the app is already built to [`SPEC.md`](SPEC
 adding widgets, connecting real data and shipping it. To build the shell yourself
 instead, switch to `main`.
 
-## Before the workshop (at home, about 20 minutes)
-**Please do this before you arrive**, so we can start building straight away.
-1. Install **Node.js 22 LTS or newer** (https://nodejs.org). Check with `node -v`: it must
-   say v22 or higher (older versions, including most of Node 20, won't run this app).
-2. Install **Git** (https://git-scm.com). Check with `git --version`.
-3. Install an AI coding tool and sign in: **Claude Code** (desktop app or terminal) or
-   **Codex** (app or CLI). Both need a **paid plan**. See `CHEATSHEET.md` for how each works here.
-4. Create a free **GitHub account** (https://github.com/signup).
-5. Create a **Cloudflare account** (https://dash.cloudflare.com) and verify your email.
-   Then open **Zero Trust** in the dashboard, choose a team name, pick the **Free plan ($0)**
-   and add a **credit card**. The card is required but nothing is charged.
-6. Optional, for the real-data block:
-   - Bring a **bank statement exported as CSV**. It stays on your laptop.
-   - If your business uses **Stripe**, make sure you can log in. We only use **test mode**.
+## Before the workshop
+You'll need these ready (setup steps are sent separately):
+- **Node.js 22+** and **Git**
+- **Claude Code** or **Codex**, installed and signed in
+- A **GitHub** account
+- A **Cloudflare** account with the free **Zero Trust** plan set up (it needs a card, but
+  nothing is charged)
 
-## At the start of the workshop (together)
-We'll do this in the room. The repo link is shared on the day.
+## At the workshop
+We'll do this together. The repo link is shared on the day.
 1. **Make your own private copy of the repo:**
    1. On the repo page, click **Use this template → Create a new repository**.
    2. Tick **Include all branches**. This is required: without it your copy has no
