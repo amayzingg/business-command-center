@@ -58,7 +58,15 @@ GOOGLE-SHEETS.md     connect a private Google Sheet (service account)
 ```
 
 ## First exercise
-Start Claude Code in this folder, switch to plan mode, and ask:
+Open this folder in your AI tool (Claude Code or Codex), switch to plan mode, and ask:
 > Read SPEC.md and CLAUDE.md, then plan how to build the dashboard.
 
 Review the plan, then let it build. You're done when `npm run dev` shows the dashboard.
+
+## Make it yours (before your first deploy)
+Try colors with the **Customize** button first if you like (it only saves in your browser),
+then make them permanent. Ask your agent:
+> Set my brand in src/brand.json: name "Your Business", primary color #…, accent color #….
+> (Optional: use my logo at public/logo.svg.) Then build and show me.
+
+Your name, colors and logo then appear on every device and in your first deploy (`DEPLOY.md`).
