@@ -1,6 +1,7 @@
 import data from './data/sample.json'
 import { useBrand } from './brand.js'
 import BrandSettings from './components/BrandSettings.jsx'
+import BrandMark from './components/BrandMark.jsx'
 
 // Every file in src/widgets/ is picked up automatically, so adding a widget
 // never means editing this file (and parallel sessions don't conflict here).
@@ -25,11 +26,9 @@ export default function App() {
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
       <header className="mb-6 flex items-start justify-between gap-4">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand text-lg font-bold text-white">
-            {brand.name.charAt(0).toUpperCase()}
-          </div>
+          <BrandMark brand={brand} />
           <div className="min-w-0">
-            <h1 className="truncate text-2xl font-semibold tracking-tight">{brand.name}</h1>
+            <h1 className="truncate text-xl font-semibold tracking-tight sm:text-2xl">{brand.name}</h1>
             <p className="text-sm text-slate-500 dark:text-slate-400">
               Command center · Data as of {new Date(`${data.asOf}T00:00`).toLocaleDateString()}
             </p>

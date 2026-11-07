@@ -29,7 +29,8 @@ deployed as a static site to Cloudflare Pages behind Cloudflare Access.
 - For highlight colors use the brand colors (`bg-brand`, `text-brand`, `bg-brand-accent`,
   `text-brand-accent`, with opacity like `bg-brand/25`), not fixed ones like
   `indigo-500`, so widgets follow the user's branding. Keep green/red for good/bad.
-- To change the default brand name or colors, edit `src/brand.json`.
+- To change the default brand name, colors or logo, edit `src/brand.json`. Logo files go
+  in `public/` (e.g. `public/logo.svg` → `"logo": "/logo.svg"`).
 - No charting library: draw small charts with divs or inline SVG, like RevenueCard.
 
 ## Before you say you're done
