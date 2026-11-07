@@ -13,23 +13,29 @@ Cloudflare Pages + Access for hosting so only you can open it, on phone or PC.
   git switch starter
   ```
 
-## Before the workshop (20 minutes)
-1. Install **Node.js 22 LTS or newer** (https://nodejs.org). Check with `node -v`; it
-   must say v22 or higher (older versions, including most of Node 20, won't run this app).
-2. Install **Git** (https://git-scm.com).
-3. Install an AI coding tool and sign in: **Claude Code** (desktop app or terminal)
-   or **Codex CLI**. See `CHEATSHEET.md` for how each one works here.
-4. Create a free **GitHub account** (https://github.com/signup) if you don't have one.
-5. Create a free **Cloudflare account** (https://dash.cloudflare.com) and verify your
-   email. **Have a credit card ready:** Cloudflare may ask for one at signup, and its
-   Zero Trust Free plan (used to lock your site) asks for one. Nothing is charged.
-6. **Make your own private copy of this repo:**
-   1. On https://github.com/amayzingg/business-command-center click
-      **Use this template → Create a new repository**.
+## Before the workshop (at home, about 20 minutes)
+**Please do this before you arrive**, so we can start building straight away.
+1. Install **Node.js 22 LTS or newer** (https://nodejs.org). Check with `node -v`: it must
+   say v22 or higher (older versions, including most of Node 20, won't run this app).
+2. Install **Git** (https://git-scm.com). Check with `git --version`.
+3. Install an AI coding tool and sign in: **Claude Code** (desktop app or terminal) or
+   **Codex** (app or CLI). Both need a **paid plan**. See `CHEATSHEET.md` for how each works here.
+4. Create a free **GitHub account** (https://github.com/signup).
+5. Create a **Cloudflare account** (https://dash.cloudflare.com) and verify your email.
+   Then open **Zero Trust** in the dashboard, choose a team name, pick the **Free plan ($0)**
+   and add a **credit card**. The card is required but nothing is charged.
+6. Optional, for the real-data block:
+   - Bring a **bank statement exported as CSV**. It stays on your laptop.
+   - If your business uses **Stripe**, make sure you can log in. We only use **test mode**.
+
+## At the start of the workshop (together)
+We'll do this in the room. The repo link is shared on the day.
+1. **Make your own private copy of the repo:**
+   1. On the repo page, click **Use this template → Create a new repository**.
    2. Tick **Include all branches**. This is required: without it your copy has no
       `starter` branch, and `git switch starter` fails.
    3. Choose **Private**, give it a name (e.g. `my-command-center`), and create it.
-7. Clone **your** new repo and check it works (use your own username and repo name):
+2. Clone **your** new repo and check it works (use your own username and repo name):
    ```bash
    git clone https://github.com/<your-username>/my-command-center.git
    cd my-command-center
@@ -46,15 +52,8 @@ Cloudflare Pages + Access for hosting so only you can open it, on phone or PC.
 `cd business-command-center` and the same `git switch starter` / `npm install` / `npm run dev`
 steps. It works for the whole workshop, but you won't have your own copy on GitHub to save and back up your changes.
 
-**Optional, for the real-data block:** if your business already uses **Stripe**, you can
-connect it (test mode). Not needed otherwise: there's a bank-statement CSV example that
-needs no account. See `REAL-DATA.md`.
-
 **Windows:** when you create a file like `.dev.vars`, make sure it isn't saved as
 `.dev.vars.txt` (in Notepad, choose "Save as type: All files"), or let your AI tool create it.
-
-**Please do this before you arrive.** Venue Wi-Fi struggles when a whole room runs
-`npm install` at once.
 
 ## What's here
 ```
