@@ -30,7 +30,9 @@ src/App.jsx          dashboard shell (auto-loads every widget)
 src/widgets/         one file per widget; RevenueCard.jsx is the example
 src/data/sample.json fake business data
 functions/           Cloudflare Pages Functions, for real data later
-PROMPTS.md           starter prompts if you're stuck
+PROMPTS.md           starter prompts if you're stuck (Claude Code + Codex)
+CHEATSHEET.md        one-page guide: desktop app vs terminal vs Codex
+AGENTS.md            points Codex and other agents to CLAUDE.md
 DEPLOY.md            deploy + lock-down checklist
 ```
 
