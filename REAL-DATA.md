@@ -15,7 +15,7 @@ Pick **one** for the workshop; they all feed the same `data` object your widgets
 | Example | Needs | Live? |
 |---|---|---|
 | A. Bank statement CSV | nothing (a CSV export) | when you re-import |
-| B. Stripe (test mode) | free Stripe account | yes, on every page load |
+| B. Stripe (test mode) | only if you already use Stripe | yes, on every page load |
 | C. Weekly summary email | free Resend account | every Monday |
 
 ## One place for keys
@@ -39,6 +39,8 @@ ask your agent to. On Windows, Notepad saves `.dev.vars.txt`, which won't work.
 Try it first with the fake `data/bank-statement.sample.csv` (`npm run import:bank`).
 
 ## B. Stripe (test mode)
+Only worth it if your business already uses Stripe. Otherwise use A, or follow
+"Add your own source" for the tool you do use.
 1. Stripe dashboard → **Test mode** → Developers → API keys → copy the `sk_test_…` key
    into `.dev.vars` as `STRIPE_SECRET_KEY`. Only test keys are accepted.
 2. `npm run seed:stripe` creates a few fake customers and invoices (a new account is empty).

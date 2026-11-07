@@ -13,18 +13,32 @@ Cloudflare Pages + Access for hosting so only you can open it, on phone or PC.
   git switch starter
   ```
 
-## Before the workshop (10 minutes)
-1. Install **Node.js 20 or newer** (https://nodejs.org) and **Git**.
-2. Install **Claude Code** and sign in.
-3. Create a free **Cloudflare account** (needed for the deploy step).
-4. Clone this repo, then check your setup works:
+## Before the workshop (15 minutes)
+1. Install **Node.js 22 LTS or newer** (https://nodejs.org). Check with `node -v`; it
+   must say v22 or higher (older versions, including most of Node 20, won't run this app).
+2. Install **Git** (https://git-scm.com).
+3. Install an AI coding tool and sign in: **Claude Code** (desktop app or terminal)
+   or **Codex CLI**. See `CHEATSHEET.md` for how each one works here.
+4. Create a free **Cloudflare account** (https://dash.cloudflare.com) and verify your
+   email. **Have a credit card ready:** Cloudflare may ask for one at signup, and its
+   Zero Trust Free plan (used to lock your site) asks for one. Nothing is charged.
+5. Clone this repo, then check your setup works:
    ```bash
+   git clone https://github.com/amayzingg/business-command-center.git
+   cd business-command-center
    git switch starter
    npm install
    npm run dev
    ```
    Open http://localhost:5173. You should see "Venture Voice" and a revenue card.
    Then `git switch main` to be ready for the first exercise.
+
+**Optional, for the real-data block:** if your business already uses **Stripe**, you can
+connect it (test mode). Not needed otherwise: there's a bank-statement CSV example that
+needs no account. See `REAL-DATA.md`.
+
+**Windows:** when you create a file like `.dev.vars`, make sure it isn't saved as
+`.dev.vars.txt` (in Notepad, choose "Save as type: All files"), or let your AI tool create it.
 
 **Please do this before you arrive.** Venue Wi-Fi struggles when a whole room runs
 `npm install` at once.
