@@ -35,7 +35,9 @@ SPEC.md              what to build in the first exercise
 CLAUDE.md            rules Claude follows in this project
 src/data/sample.json fake business data
 functions/           Cloudflare Pages Functions, for real data later
-PROMPTS.md           starter prompts if you're stuck
+PROMPTS.md           starter prompts if you're stuck (Claude Code + Codex)
+CHEATSHEET.md        one-page guide: desktop app vs terminal vs Codex
+AGENTS.md            points Codex and other agents to CLAUDE.md
 DEPLOY.md            deploy + lock-down checklist
 ```
 
