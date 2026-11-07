@@ -8,24 +8,37 @@ You're on the **`starter` branch**: the app is already built to [`SPEC.md`](SPEC
 adding widgets, connecting real data and shipping it. To build the shell yourself
 instead, switch to `main`.
 
-## Before the workshop (15 minutes)
+## Before the workshop (20 minutes)
 1. Install **Node.js 22 LTS or newer** (https://nodejs.org). Check with `node -v`; it
    must say v22 or higher (older versions, including most of Node 20, won't run this app).
 2. Install **Git** (https://git-scm.com).
 3. Install an AI coding tool and sign in: **Claude Code** (desktop app or terminal)
    or **Codex CLI**. See `CHEATSHEET.md` for how each one works here.
-4. Create a free **Cloudflare account** (https://dash.cloudflare.com) and verify your
+4. Create a free **GitHub account** (https://github.com/signup) if you don't have one.
+5. Create a free **Cloudflare account** (https://dash.cloudflare.com) and verify your
    email. **Have a credit card ready:** Cloudflare may ask for one at signup, and its
    Zero Trust Free plan (used to lock your site) asks for one. Nothing is charged.
-5. Clone this repo and check it works:
+6. **Make your own private copy of this repo:**
+   1. On https://github.com/amayzingg/business-command-center click
+      **Use this template → Create a new repository**.
+   2. Tick **Include all branches**. This is required: without it your copy has no
+      `starter` branch, and `git switch starter` fails.
+   3. Choose **Private**, give it a name (e.g. `my-command-center`), and create it.
+7. Clone **your** new repo and check it works (use your own username and repo name):
    ```bash
-   git clone https://github.com/amayzingg/business-command-center.git
-   cd business-command-center
+   git clone https://github.com/<your-username>/my-command-center.git
+   cd my-command-center
    git switch starter
    npm install
    npm run dev
    ```
+   Git asks you to sign in to GitHub the first time, because your copy is private.
    Open http://localhost:5173. You should see "Venture Voice" and a revenue card.
+
+**No GitHub account?** You can clone the public template instead:
+`git clone https://github.com/amayzingg/business-command-center.git`, then
+`cd business-command-center` and the same `git switch starter` / `npm install` / `npm run dev`
+steps. It works for the whole workshop, but you won't have your own copy on GitHub to save and back up your changes.
 
 **Optional, for the real-data block:** if your business already uses **Stripe**, you can
 connect it (test mode). Not needed otherwise: there's a bank-statement CSV example that
