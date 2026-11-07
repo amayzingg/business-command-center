@@ -6,7 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "import:bank": "node scripts/import-bank.mjs",
+    "seed:stripe": "node scripts/seed-stripe.mjs",
+    "dev:functions": "vite build && npx wrangler pages dev dist --port 8788",
+    "email:dev": "node -e \"require('fs').copyFileSync('.dev.vars','email-worker/.dev.vars')\" && npx wrangler dev --config email-worker/wrangler.toml --var ALLOW_PREVIEW:1 --test-scheduled --port 8790",
+    "email:deploy": "npx wrangler deploy --config email-worker/wrangler.toml",
+    "secrets:push": "node scripts/push-secrets.mjs"
+  },
+  "config": {
+    "pagesProject": "business-command-center"
   },
   "dependencies": {
     "react": "^19.1.0",

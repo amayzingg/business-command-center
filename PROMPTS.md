@@ -40,6 +40,8 @@ Same ideas, Codex's own files. See `CHEATSHEET.md` for the side-by-side.
   `$new-widget` followed by your description.
 
 ## Real data
+Working examples (bank CSV, Stripe test mode, weekly email) and a recipe for
+adding your own source are in `REAL-DATA.md`. Prompts to adapt them:
 - Replace the sample invoices with data from [Stripe / QuickBooks / a Google Sheet]
   using a Cloudflare Pages Function in `functions/api/`. Keep the API key in an
   environment variable.

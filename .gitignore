@@ -3,5 +3,11 @@ dist
 .wrangler
 .env
 .env.*
-.dev.vars
 .DS_Store
+
+# Keys: one .dev.vars at the root (copied into email-worker/ by npm run email:dev)
+.dev.vars*
+!.dev.vars.example
+# Real bank exports stay on your machine (the fake sample is fine)
+data/*.csv
+!data/*.sample.csv

@@ -1,7 +1,18 @@
-import data from './data/sample.json'
+import sample from './data/sample.json'
 import { useBrand } from './brand.js'
+import { useLiveData } from './liveData.js'
 import BrandSettings from './components/BrandSettings.jsx'
 import BrandMark from './components/BrandMark.jsx'
+
+// Every other JSON file in src/data/ is added as a field named after the file,
+// e.g. src/data/bank.json → data.bank. Importers in scripts/ write these files.
+const extraData = import.meta.glob(['./data/*.json', '!./data/sample.json'], { eager: true, import: 'default' })
+const baseData = {
+  ...sample,
+  ...Object.fromEntries(
+    Object.entries(extraData).map(([path, value]) => [path.split('/').pop().replace('.json', ''), value]),
+  ),
+}
 
 // Every file in src/widgets/ is picked up automatically, so adding a widget
 // never means editing this file (and parallel sessions don't conflict here).
@@ -18,6 +29,9 @@ const sizeClasses = {
 }
 
 export default function App() {
+  // Sample + imported data, then live API data (functions/api/) merged over it on load.
+  const data = useLiveData(baseData)
+  const liveSources = Object.keys(data.live ?? {})
   const { brand, rawName, update, reset } = useBrand(data.business.name)
 
   return (
@@ -31,6 +45,16 @@ export default function App() {
             <h1 className="truncate text-xl font-semibold tracking-tight sm:text-2xl">{brand.name}</h1>
             <p className="text-sm text-slate-500 dark:text-slate-400">
               Command center · Data as of {new Date(`${data.asOf}T00:00`).toLocaleDateString()}
+              {liveSources.map((s) => (
+                <span
+                  key={s}
+                  className="ml-2 inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  Live: {s}
+                  {data.live[s]?.mode === 'test' ? ' (test)' : ''}
+                </span>
+              ))}
             </p>
           </div>
         </div>

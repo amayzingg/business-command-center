@@ -1,0 +1,49 @@
+Date,Description,Category,Amount,Balance
+2026-08-01,"Coworking desk rent",Rent,-1450.00,29800.00
+2026-08-02,"Figma subscription",Software,-45.00,29755.00
+2026-08-02,"Google Workspace",Software,-36.00,29719.00
+2026-08-03,"Notion Plus",Software,-24.00,29695.00
+2026-08-05,"Cloudflare",Software,-5.00,29690.00
+2026-08-06,"Vodafone business mobile",Utilities,-39.00,29651.00
+2026-08-06,"Transfer from Cedar Health - INV-2042",Client payment,8354.00,38005.00
+2026-08-09,"Transfer from Ember Fitness - INV-2019",Client payment,3724.00,41729.00
+2026-08-10,"Contractor - J. Silva design",Contractors,-1800.00,39929.00
+2026-08-12,"Card - Lisbon Coffee Roasters",Meals,-40.00,39889.00
+2026-08-15,"Payroll - salary",Payroll,-4200.00,35689.00
+2026-08-15,"Social security contributions",Taxes,-980.00,34709.00
+2026-08-18,"Card - TAP Air Portugal",Travel,-56.00,34653.00
+2026-08-19,"Bank fees",Fees,-12.50,34640.50
+2026-08-25,"Contractor - R. Costa development",Contractors,-2620.00,32020.50
+2026-08-27,"Transfer from Cedar Health - INV-2030",Client payment,5948.00,37968.50
+2026-09-01,"Coworking desk rent",Rent,-1450.00,36518.50
+2026-09-02,"Figma subscription",Software,-45.00,36473.50
+2026-09-02,"Google Workspace",Software,-36.00,36437.50
+2026-09-03,"Notion Plus",Software,-24.00,36413.50
+2026-09-05,"Cloudflare",Software,-5.00,36408.50
+2026-09-06,"Vodafone business mobile",Utilities,-39.00,36369.50
+2026-09-09,"Transfer from Ember Fitness - INV-2010",Client payment,2650.00,39019.50
+2026-09-10,"Contractor - J. Silva design",Contractors,-2091.00,36928.50
+2026-09-12,"Card - Lisbon Coffee Roasters",Meals,-42.00,36886.50
+2026-09-15,"Payroll - salary",Payroll,-4200.00,32686.50
+2026-09-15,"Social security contributions",Taxes,-980.00,31706.50
+2026-09-18,"Card - TAP Air Portugal",Travel,-312.00,31394.50
+2026-09-19,"Bank fees",Fees,-12.50,31382.00
+2026-09-21,"Transfer from Harbor Books - INV-2013",Client payment,6004.00,37386.00
+2026-09-24,"Transfer from Acme Logistics - INV-2028",Client payment,5568.00,42954.00
+2026-09-25,"Contractor - R. Costa development",Contractors,-2283.00,40671.00
+2026-09-25,"Transfer from Harbor Books - INV-2041",Client payment,6210.00,46881.00
+2026-10-01,"Coworking desk rent",Rent,-1450.00,45431.00
+2026-10-02,"Figma subscription",Software,-45.00,45386.00
+2026-10-02,"Google Workspace",Software,-36.00,45350.00
+2026-10-03,"Notion Plus",Software,-24.00,45326.00
+2026-10-05,"Cloudflare",Software,-5.00,45321.00
+2026-10-06,"Vodafone business mobile",Utilities,-39.00,45282.00
+2026-10-07,"Transfer from Cedar Health - INV-2012",Client payment,8912.00,54194.00
+2026-10-09,"Transfer from Cedar Health - INV-2035",Client payment,4865.00,59059.00
+2026-10-10,"Contractor - J. Silva design",Contractors,-2492.00,56567.00
+2026-10-12,"Card - Lisbon Coffee Roasters",Meals,-37.00,56530.00
+2026-10-12,"Transfer from Acme Logistics - INV-2016",Client payment,5450.00,61980.00
+2026-10-15,"Payroll - salary",Payroll,-4200.00,57780.00
+2026-10-15,"Social security contributions",Taxes,-980.00,56800.00
+2026-10-18,"Card - TAP Air Portugal",Travel,-61.00,56739.00
+2026-10-19,"Bank fees",Fees,-12.50,56726.50

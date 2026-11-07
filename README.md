@@ -34,6 +34,7 @@ PROMPTS.md           starter prompts if you're stuck (Claude Code + Codex)
 CHEATSHEET.md        one-page guide: desktop app vs terminal vs Codex
 AGENTS.md            points Codex and other agents to CLAUDE.md
 DEPLOY.md            deploy + lock-down checklist
+REAL-DATA.md         bank CSV, Stripe, weekly email, add your own source
 ```
 
 ## Add a widget

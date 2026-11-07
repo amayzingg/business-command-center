@@ -1,0 +1,10 @@
+# Copy this file to .dev.vars (git-ignored). It's the ONE place for your keys:
+# the dashboard and the weekly email both read it locally, and
+# `npm run secrets:push` uploads it to Cloudflare for both.
+# Never commit .dev.vars, never put keys in src/.
+
+# Stripe dashboard → Test mode → Developers → API keys → Secret key
+STRIPE_SECRET_KEY=sk_test_replace_me
+
+# Optional, for the weekly email: resend.com → API Keys → Create (Sending access)
+RESEND_API_KEY=re_replace_me
