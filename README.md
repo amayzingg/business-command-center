@@ -17,7 +17,7 @@ instead, switch to `main`.
    npm install
    npm run dev
    ```
-   Open http://localhost:5173. You should see "Atlântico Studio" and a revenue card.
+   Open http://localhost:5173. You should see "Venture Voice" and a revenue card.
 
 **Please do this before you arrive.** Venue Wi-Fi struggles when a whole room runs
 `npm install` at once.
