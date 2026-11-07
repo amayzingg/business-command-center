@@ -53,6 +53,14 @@ REAL-DATA.md         bank CSV, Stripe, weekly email, add your own source
 GOOGLE-SHEETS.md     connect a private Google Sheet (service account)
 ```
 
+## Make it yours (before your first deploy)
+Try colors with the **Customize** button first if you like (it only saves in your browser),
+then make them permanent. Ask your agent:
+> Set my brand in src/brand.json: name "Your Business", primary color #…, accent color #….
+> (Optional: use my logo at public/logo.svg.) Then build and show me.
+
+Your name, colors and logo then appear on every device and in your first deploy (`DEPLOY.md`).
+
 ## Add a widget
 Drop a new file in `src/widgets/` that default-exports a component and exports
 `meta`. It appears on the dashboard automatically. Or ask Claude, for example:

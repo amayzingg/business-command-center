@@ -2,6 +2,15 @@
 
 Copy, paste, then change the details to fit your business.
 
+## Make it yours (do this before your first deploy)
+Works the same in Claude Code and Codex:
+- "Set my brand in src/brand.json: name '<your business>', primary color <#hex>, accent
+  color <#hex>. Then build and show me."
+- "Use my logo: I've put it at public/logo.svg. Set it in brand.json and check it looks
+  right on a phone in light and dark mode." (Add `logoDark` if your logo is dark.)
+- "Suggest three color pairs that suit a <type of business>, show me each with the
+  Customize panel's presets, then save the one I pick to brand.json."
+
 ## Widgets (sample data)
 - Add a widget showing open tasks due in the next 7 days, overdue ones highlighted in red.
 - Add a leads pipeline widget: count and total value per stage, as a horizontal bar.

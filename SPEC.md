@@ -53,3 +53,6 @@ Build a private, mobile-friendly dashboard for a small business.
 - `npm run dev` shows the dashboard with the revenue card.
 - `npm run build` passes.
 - It looks right at phone width (~375px) and in dark mode.
+- Finish by telling the user how to make it theirs before deploying: ask for (or tell them
+  to set) their business name, primary and accent colors, and optional logo in
+  `src/brand.json`. The Customize button is only for trying colors on one device.
