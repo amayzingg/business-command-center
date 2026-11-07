@@ -83,5 +83,6 @@
       "description": "Transfer from Acme Logistics - INV-2016",
       "amount": 5450
     }
-  ]
+  ],
+  "sample": true
 }

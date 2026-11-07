@@ -20,14 +20,28 @@ ask your agent to. On Windows, Notepad saves `.dev.vars.txt`, which won't work.
 - Never put keys in `src/`, and never commit `.dev.vars`.
 
 ## A. Bank statement CSV
+Easiest: **`/update-bank data/my-bank.csv`** (Claude Code) or **`$update-bank`** (Codex)
+does all of this for you. By hand:
 1. Export a CSV from your bank into `data/` (e.g. `data/my-bank.csv`). It's git-ignored,
    so it stays on your machine.
 2. `npm run import:bank -- data/my-bank.csv` writes `src/data/bank.json` (balance, monthly
    in/out, spending by category). If your bank uses different column names, change
    them at the top of `scripts/import-bank.mjs`.
-3. The **Cash flow** widget shows it. Rebuild + deploy to update the live site.
+3. The **Cash flow** widget shows it, with "Imported <date> from <file>". Then
+   `npm run deploy` (and `npm run email:deploy` if you use the weekly email).
 
-Try it first with the fake `data/bank-statement.sample.csv` (`npm run import:bank`).
+`src/data/bank.json` holds your real transactions, so it's **git-ignored**. Until you
+import, the dashboard and email use the fictional `src/data/bank.sample.json` and say
+**Sample bank data**. Try the flow with the fake `data/bank-statement.sample.csv`
+(`npm run import:bank`).
+
+**Live sources and "today":** when any live source (Stripe, a Sheet…) loads, the
+dashboard treats *now* as today for due/overdue maths, shows each source's fetch time,
+and refetches when you return to the tab, every 5 minutes while it's open, and on
+**Refresh**. Imported files (bank CSV) and `sample.json` stay as they are until you
+re-import or edit them.
+
+**Google Sheet:** see `GOOGLE-SHEETS.md` to read a private sheet with a service account.
 
 ## B. Stripe (test mode)
 Only worth it if your business already uses Stripe. Otherwise use A, or follow

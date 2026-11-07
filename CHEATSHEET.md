@@ -29,11 +29,15 @@ cd ../bcc-leads && npm install && npm run dev -- --port 5180
 ```
 Branch from `starter` (not `main`) so the app is there. Give each copy its own port.
 
-**Deploy** (after the one-time setup in `DEPLOY.md`):
+**Deploy** (after the one-time setup in `DEPLOY.md`; set `config.pagesProject` in package.json):
 ```bash
-npm run build
-npx wrangler pages deploy dist --project-name <your-project> --branch main
+npm run deploy          # build + deploy to production (--branch main)
 ```
+
+**Update bank data:** `/update-bank data/my-bank.csv` (Claude Code) or `$update-bank`
+(Codex). It runs `npm run import:bank -- <file>`, checks Cash flow, then `npm run deploy` and
+`npm run email:deploy`. The CSV and `src/data/bank.json` are git-ignored; until you import,
+the card shows **Sample bank data**.
 
 **Real data** (details in `REAL-DATA.md`; keys go in the root `.dev.vars`):
 ```bash

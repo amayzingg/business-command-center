@@ -41,7 +41,15 @@ Same ideas, Codex's own files. See `CHEATSHEET.md` for the side-by-side.
 
 ## Real data
 Working examples (bank CSV, Stripe test mode, weekly email) and a recipe for
-adding your own source are in `REAL-DATA.md`. Prompts to adapt them:
+adding your own source are in `REAL-DATA.md`.
+- **Bank statement:** export a CSV into `data/`, then run **`/update-bank data/my-bank.csv`**
+  (Claude Code) or **`$update-bank`** (Codex). It imports the CSV, adapts the column mapping if
+  your bank's format differs (asking you first), checks the Cash flow card, and
+  redeploys. Your CSV and `src/data/bank.json` stay git-ignored. Never commit them.
+- **Google Sheet (kept private):** follow `GOOGLE-SHEETS.md`. It covers service account
+  setup and has a ready-made prompt.
+
+Prompts to adapt:
 - Replace the sample invoices with data from [Stripe / QuickBooks / a Google Sheet]
   using a Cloudflare Pages Function in `functions/api/`. Keep the API key in an
   environment variable.

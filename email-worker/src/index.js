@@ -2,7 +2,9 @@
 // Customize what it says in ../email.config.json, the look in ./render.js.
 import config from '../email.config.json'
 import sample from '../../src/data/sample.json'
-import bank from '../../src/data/bank.json'
+// Written by scripts/pick-bank.mjs (run by npm run email:dev / email:deploy): your
+// imported bank.json if it exists, otherwise the fictional bank.sample.json.
+import bank from '../.generated/bank.json'
 import brand from '../../src/brand.json'
 import { fetchStripeData } from '../../shared/stripe.js'
 import { buildSummary } from '../../shared/summary.js'
@@ -11,14 +13,26 @@ import { renderEmail } from './render.js'
 // Same data the dashboard shows: sample data + imported files + live APIs.
 async function loadData(env) {
   const data = { ...sample, bank }
-  const notes = []
+  const notes = [
+    bank.sample
+      ? 'Cash figures are sample bank data (import yours with /update-bank).'
+      : `Cash figures from ${bank.source}, imported ${(bank.importedAt ?? '').slice(0, 10) || 'earlier'} (last transaction ${bank.asOf}).`,
+  ]
   if (env.STRIPE_SECRET_KEY) {
     try {
       Object.assign(data, await fetchStripeData(env.STRIPE_SECRET_KEY))
-      notes.push('Invoices are live from Stripe (test mode).')
+      const fetched = new Date()
+      notes.push(`Invoices are live from Stripe (test mode), fetched ${fetched.toUTCString().slice(5, 22)} UTC.`)
     } catch (err) {
       notes.push(`Stripe unavailable (${err.message}); invoices are sample data.`)
     }
+  }
+  // With any live source, "today" is now (UTC): overdue / due-this-week counts and the
+  // "data as of" line follow the clock instead of the sample file's date.
+  if (data.live && Object.keys(data.live).length) {
+    data.asOf = new Date().toISOString().slice(0, 10)
+  } else {
+    notes.push('No live sources connected; all figures are sample data.')
   }
   return { data, notes }
 }

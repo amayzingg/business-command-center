@@ -94,7 +94,24 @@ export default function CashFlow({ data }) {
         </div>
       </div>
 
-      <p className="mt-3 text-[11px] text-slate-400 dark:text-slate-500">From {bank.source}</p>
+      <p className="mt-3 text-[11px] text-slate-400 dark:text-slate-500">
+        {bank.sample ? (
+          <>
+            <span className="rounded bg-amber-100 px-1 font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+              Sample bank data
+            </span>{' '}
+            Import yours with /update-bank or npm run import:bank
+          </>
+        ) : (
+          <>
+            Imported{' '}
+            {bank.importedAt
+              ? new Date(bank.importedAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })
+              : ''}{' '}
+            from {bank.source}
+          </>
+        )}
+      </p>
     </div>
   )
 }

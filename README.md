@@ -50,6 +50,7 @@ CHEATSHEET.md        one-page guide: desktop app vs terminal vs Codex
 AGENTS.md            points Codex and other agents to CLAUDE.md
 DEPLOY.md            deploy + lock-down checklist
 REAL-DATA.md         bank CSV, Stripe, weekly email, add your own source
+GOOGLE-SHEETS.md     connect a private Google Sheet (service account)
 ```
 
 ## Add a widget

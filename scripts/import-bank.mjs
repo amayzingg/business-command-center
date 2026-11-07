@@ -1,4 +1,6 @@
 // Turn a bank-statement CSV export into src/data/bank.json, which widgets see as `data.bank`.
+// src/data/bank.json is git-ignored (it holds your real transactions). Without it, the
+// dashboard and email fall back to the fictional src/data/bank.sample.json.
 //
 //   npm run import:bank                      # uses data/bank-statement.sample.csv (fake)
 //   npm run import:bank -- data/my-bank.csv  # your own export (git-ignored)
@@ -71,6 +73,7 @@ for (const t of txns) {
 const last = txns.at(-1)
 const bank = {
   source: csvPath.replace(/\\/g, '/').split('/').pop(),
+  importedAt: new Date().toISOString(),
   asOf: last.date,
   balance: Number.isFinite(last.balance) ? last.balance : null,
   months,

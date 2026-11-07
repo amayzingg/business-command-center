@@ -10,8 +10,9 @@
     "import:bank": "node scripts/import-bank.mjs",
     "seed:stripe": "node scripts/seed-stripe.mjs",
     "dev:functions": "vite build && npx wrangler pages dev dist --port 8788",
-    "email:dev": "node -e \"require('fs').copyFileSync('.dev.vars','email-worker/.dev.vars')\" && npx wrangler dev --config email-worker/wrangler.toml --var ALLOW_PREVIEW:1 --test-scheduled --port 8790",
-    "email:deploy": "npx wrangler deploy --config email-worker/wrangler.toml",
+    "email:dev": "node scripts/pick-bank.mjs && node -e \"const f=require('fs'); if (f.existsSync('.dev.vars')) f.copyFileSync('.dev.vars','email-worker/.dev.vars')\" && npx wrangler dev --config email-worker/wrangler.toml --var ALLOW_PREVIEW:1 --test-scheduled --port 8790",
+    "email:deploy": "node scripts/pick-bank.mjs && npx wrangler deploy --config email-worker/wrangler.toml",
+    "deploy": "node scripts/deploy.mjs",
     "secrets:push": "node scripts/push-secrets.mjs"
   },
   "config": {
