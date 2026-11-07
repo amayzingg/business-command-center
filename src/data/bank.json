@@ -1,0 +1,87 @@
+{
+  "source": "bank-statement.sample.csv",
+  "asOf": "2026-10-19",
+  "balance": 56726.5,
+  "months": [
+    {
+      "month": "2026-08",
+      "in": 18026,
+      "out": 11307.5
+    },
+    {
+      "month": "2026-09",
+      "in": 20432,
+      "out": 11519.5
+    },
+    {
+      "month": "2026-10",
+      "in": 19227,
+      "out": 9381.5
+    }
+  ],
+  "spendByCategory": [
+    {
+      "name": "Payroll",
+      "total": 4200
+    },
+    {
+      "name": "Contractors",
+      "total": 2492
+    },
+    {
+      "name": "Rent",
+      "total": 1450
+    },
+    {
+      "name": "Taxes",
+      "total": 980
+    },
+    {
+      "name": "Software",
+      "total": 110
+    },
+    {
+      "name": "Travel",
+      "total": 61
+    },
+    {
+      "name": "Utilities",
+      "total": 39
+    },
+    {
+      "name": "Meals",
+      "total": 37
+    },
+    {
+      "name": "Fees",
+      "total": 12.5
+    }
+  ],
+  "recent": [
+    {
+      "date": "2026-10-19",
+      "description": "Bank fees",
+      "amount": -12.5
+    },
+    {
+      "date": "2026-10-18",
+      "description": "Card - TAP Air Portugal",
+      "amount": -61
+    },
+    {
+      "date": "2026-10-15",
+      "description": "Social security contributions",
+      "amount": -980
+    },
+    {
+      "date": "2026-10-15",
+      "description": "Payroll - salary",
+      "amount": -4200
+    },
+    {
+      "date": "2026-10-12",
+      "description": "Transfer from Acme Logistics - INV-2016",
+      "amount": 5450
+    }
+  ]
+}

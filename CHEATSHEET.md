@@ -35,8 +35,22 @@ npm run build
 npx wrangler pages deploy dist --project-name <your-project> --branch main
 ```
 
+**Real data** (details in `REAL-DATA.md`; keys go in the root `.dev.vars`):
+```bash
+npm run import:bank -- data/my-bank.csv   # bank CSV → Cash flow widget
+npm run dev:functions                     # app + API routes at http://localhost:8788
+npm run email:dev                         # weekly email preview at http://localhost:8790/preview
+npm run secrets:push                      # upload .dev.vars to Cloudflare (dashboard + email)
+```
+
 ## If something goes wrong
 - **Blank page / errors:** run `npm run build` and paste the error to your agent.
+- **New widget looks unstyled locally but fine after build:** stop `npm run dev`
+  (Ctrl+C) and start it again; the dev server sometimes misses a new file's styles.
+- **Key "not set" although you added it:** the file must be named exactly `.dev.vars`
+  (Windows Notepad adds `.txt`) and the key name spelled exactly as in `.dev.vars.example`.
+- **localhost:8788 / 8790 hangs:** an old `wrangler` is still running. Close its
+  terminal, or ask your agent to stop leftover `wrangler`/`workerd` processes.
 - **Port already in use:** Vite picks the next port (5174…) — read the URL it prints.
 - **Widget doesn't appear:** the file must be in `src/widgets/`, export `meta`, and
   default-export the component. No change to `App.jsx` needed.

@@ -1,0 +1,11 @@
+{
+  "enabled": true,
+  "to": ["you@example.com"],
+  "from": "Command center <onboarding@resend.dev>",
+  "subject": "{name} weekly summary · {date}",
+  "intro": "Here's where the business stands this week.",
+  "sections": ["revenue", "invoices", "cash", "tasks", "leads"],
+  "dashboardUrl": "https://business-command-center.pages.dev",
+  "logoUrl": "",
+  "signoff": "Sent automatically by your command center."
+}

@@ -1,0 +1,18 @@
+# Weekly summary email: a small Cloudflare Worker that runs on a schedule.
+# Deploy:  npm run email:deploy        Test locally:  npm run email:dev
+name = "business-command-center-weekly"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+# No public URL: the Worker only runs on its schedule (its stats aren't behind Access).
+workers_dev = false
+preview_urls = false
+
+# When to send, in UTC (Cron syntax). "0 8 * * MON" = Mondays 08:00 UTC
+# (= 08:00 Lisbon/London in winter, 09:00 in summer). Change it, then redeploy.
+[triggers]
+crons = ["0 8 * * MON"]
+
+# Secrets (never in this file) live in the ROOT .dev.vars, shared with the dashboard:
+#   local:     npm run email:dev copies it to email-worker/.dev.vars (git-ignored) each start
+#   deployed:  npm run secrets:push uploads it to this Worker and the Pages project
