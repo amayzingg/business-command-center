@@ -23,7 +23,7 @@ Cloudflare Pages + Access for hosting so only you can open it, on phone or PC.
    npm install
    npm run dev
    ```
-   Open http://localhost:5173. You should see "Atlântico Studio" and a revenue card.
+   Open http://localhost:5173. You should see "Venture Voice" and a revenue card.
    Then `git switch main` to be ready for the first exercise.
 
 **Please do this before you arrive.** Venue Wi-Fi struggles when a whole room runs
