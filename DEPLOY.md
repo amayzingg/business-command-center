@@ -2,9 +2,9 @@
 
 Goal: the dashboard lives at a `*.pages.dev` URL that **only your email** can open.
 
-You need a Cloudflare account. **Have a credit card ready:** Cloudflare may ask for one
-when you sign up, and Zero Trust (used to lock the site, Free plan, $0) asks for one
-when you first set it up. Nothing in this workshop is charged; everything uses free plans.
+You need a Cloudflare account with **Zero Trust** set up (team name, **Free plan, $0**).
+Zero Trust requires a **credit card**, but nothing in this workshop is charged; everything
+uses free plans. Most people do this at home before the workshop (see `README.md`).
 
 ## 0. Make it yours first (2 minutes)
 Set your name, colors and (optionally) logo in `src/brand.json` so your first live URL
@@ -33,8 +33,10 @@ npx wrangler pages deploy dist --project-name <project> --branch main
 ## 2. Lock it down with Cloudflare Access
 In the Cloudflare dashboard (https://dash.cloudflare.com):
 1. **Workers & Pages** → your project → **Settings** → **General** → **Preview access** →
-   **Enable**. First time? Cloudflare walks you through **Zero Trust**: pick a team name,
-   choose the **Free** plan, and add a card if asked (not charged).
+   **Enable**.
+   - **Set up Zero Trust at home already?** Skip ahead. You won't be asked again.
+   - **Not yet?** Cloudflare walks you through it now: pick a team name, choose the
+     **Free** plan ($0) and add a credit card. The card is required but not charged.
 2. Still under **Preview access**, click **Manage**. This opens the Access application
    Cloudflare just created ("<project> - Cloudflare Pages").
 3. **This step matters:** that application only covers *preview* URLs
