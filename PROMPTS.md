@@ -60,6 +60,7 @@ adding your own source are in `REAL-DATA.md`.
   (Claude Code) or **`$update-bank`** (Codex). It imports the CSV, adapts the column mapping if
   your bank's format differs (asking you first), checks the Cash flow card, and
   redeploys. Your CSV and `src/data/bank.json` stay git-ignored. Never commit them.
+- **Google Search Console + GA4:** follow `GOOGLE-ANALYTICS.md`, which has a ready-made prompt.
 - **Google Sheet (kept private):** follow `GOOGLE-SHEETS.md`. It covers service account
   setup and has a ready-made prompt.
 

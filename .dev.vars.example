@@ -14,3 +14,7 @@ RESEND_API_KEY=re_replace_me
 GOOGLE_SA_EMAIL=dashboard-reader@your-project.iam.gserviceaccount.com
 GOOGLE_SA_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nreplace_me\n-----END PRIVATE KEY-----\n"
 GOOGLE_SHEET_ID=replace_me
+
+# Optional, Google Search Console + GA4 (see GOOGLE-ANALYTICS.md; reuses the service account above)
+GSC_SITE_URL=sc-domain:yourdomain.com
+GA4_PROPERTY_ID=123456789

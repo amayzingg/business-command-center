@@ -69,6 +69,8 @@ re-import or edit them.
 **Google Sheet:** see `GOOGLE-SHEETS.md` to read a private sheet with a service account
 (Google Workspace users: it covers what to do if key creation is blocked).
 
+**Google Search Console and GA4:** see `GOOGLE-ANALYTICS.md` (reuses the same service account).
+
 ## B. Stripe (test mode)
 Only worth it if your business already uses Stripe. Otherwise use A, or follow
 "Add your own source" for the tool you do use.
