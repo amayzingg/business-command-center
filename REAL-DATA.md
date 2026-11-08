@@ -75,7 +75,7 @@ re-import or edit them.
 Only worth it if your business already uses Stripe. Otherwise use A, or follow
 "Add your own source" for the tool you do use.
 1. Stripe dashboard → **Test mode** → Developers → API keys → copy the `sk_test_…` key
-   into `.dev.vars` as `STRIPE_SECRET_KEY`. Only test keys are accepted.
+   into `.dev.vars` as `STRIPE_SECRET_KEY`. Only test keys are accepted until you follow "Switch to live Stripe data" below.
 2. `npm run seed:stripe` creates a few fake customers and invoices (a new account is empty).
 3. `npm run dev:functions` → http://localhost:8788. Plain `npm run dev` doesn't run the API.
    The header shows **Live: stripe (test)**, and `data.invoices` now comes from Stripe.
@@ -84,6 +84,26 @@ Only worth it if your business already uses Stripe. Otherwise use A, or follow
 
 How it works: `functions/api/stripe.js` (server-side) → `shared/stripe.js` →
 `src/liveData.js` merges the result over the sample data when the page loads.
+
+### Switch to live Stripe data
+> **Status: untested with a live Stripe account.** Try the same restricted key in a sandbox
+> first if you can.
+
+By default `shared/stripe.js` accepts only test keys. To show real invoices:
+1. In Stripe's **live mode**: **Developers → API keys → Create restricted key**. Set
+   **Invoices** to **Read** and leave everything else as **None**. Copy the `rk_live_…` key.
+   If Stripe returns a permissions error, its message names what to add.
+2. Replace `STRIPE_SECRET_KEY` in `.dev.vars` with it. Never paste the key into chat.
+3. Paste this into Claude Code or Codex:
+   > Allow live Stripe data. In shared/stripe.js, accept test keys and restricted live keys
+   > (rk_live_), but keep rejecting full live secret keys (sk_live_). Set live.stripe.mode from
+   > the key, and update every label that says "test," including the weekly email. Then build
+   > and show me.
+4. **These are real invoices.** Before deploying, open your URL in an incognito window and
+   confirm it asks for a login. Then `npm run secrets:push` and `npm run deploy`.
+
+Don't run `npm run seed:stripe` against a live account: it's for creating fake test data
+(the script refuses anything but a test key, so keep it that way).
 
 ## C. Weekly summary email
 A small separate Cloudflare Worker (`email-worker/`) runs on a schedule and emails you
@@ -96,6 +116,22 @@ the key numbers, using the same data as the dashboard.
    (UTC cron, default Mondays 08:00). Change the look in `email-worker/src/render.js`.
 3. `npm run email:dev` → open http://localhost:8790/preview. Use `/send` to send yourself one now.
 4. `npm run email:deploy`, then `npm run secrets:push`. The Worker has no public URL.
+
+### Send from your own domain
+> **Status: untested as written.** Follow what Resend shows if its screens differ.
+
+Lets you send to any address, not only your Resend login.
+1. **Resend → Domains → Add domain.** Use a subdomain such as `updates.yourdomain.com`,
+   which keeps this email's reputation separate from your main domain.
+2. Add the DNS records Resend shows at your DNS provider. On Cloudflare: your domain →
+   **DNS → Records**. Copy each value exactly, and set any CNAME records to **DNS only**
+   (not proxied).
+3. Recommended: add a DMARC **TXT** record named `_dmarc` with `v=DMARC1; p=none;`.
+4. Click **Verify**. It's often done within 15 minutes, but DNS changes can take up to 72 hours.
+5. In `email-worker/email.config.json`, set `from` to an address on that domain, such as
+   `"Control Center <dashboard@updates.yourdomain.com>"`, and `to` to any address.
+6. Create a new Resend API key limited to that domain, update `RESEND_API_KEY` in `.dev.vars`,
+   then run `npm run secrets:push`.
 
 ## Add your own source (e.g. Notion tasks)
 Any API works the same way. Example: tasks from a Notion database instead of the sample.
