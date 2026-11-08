@@ -14,6 +14,9 @@ The same workshop works in three tools. Find your column.
 | **Custom command** | `.claude/skills/<name>/SKILL.md` → `/name` | same → `/name` | `.agents/skills/<name>/SKILL.md` → `$name` |
 | **Stop / undo** | Stop button; ask it to revert | **Esc** to stop; **Esc Esc** to rewind | **Esc** to stop; ask it to revert |
 
+**Ready-made commands:** add a widget with `/new-widget <description>` (Claude Code) or
+`$new-widget <description>` (Codex), e.g. `/new-widget tasks due in the next 7 days, overdue in red`.
+
 ## Every tool: the commands you'll type
 
 ```bash

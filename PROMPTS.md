@@ -28,8 +28,10 @@ Works the same in Claude Code and Codex:
   missing dark-mode styles, then fix what it finds."
 - **Hooks:** "Add a hook that runs `npm run build` after every file edit and shows
   me the errors."
-- **Custom command/skill:** "Create a /new-widget command that takes a one-line
-  description and builds a widget following CLAUDE.md."
+- **Ready-made command:** `/new-widget tasks due in the next 7 days, overdue in red` builds a
+  widget following CLAUDE.md. It's already in this branch.
+- **Custom command/skill (exercise):** "Create a /weekly-wins command that summarises this
+  week's wins from my dashboard data in three bullet points."
 
 ## Techniques in Codex
 Same ideas, Codex's own files. See `CHEATSHEET.md` for the side-by-side.
@@ -44,9 +46,11 @@ Same ideas, Codex's own files. See `CHEATSHEET.md` for the side-by-side.
   runs `npm run build`; if the build fails, write the last 30 lines to stderr and exit 2.
   Add a `commandWindows` version in PowerShell." Then run **`/hooks` and trust it**.
   Codex skips new or changed hooks until you do.
-- **Custom skill:** "Create a skill at `.agents/skills/new-widget/SKILL.md` that takes a
-  one-line description and builds a widget following CLAUDE.md." Use it by typing
-  `$new-widget` followed by your description.
+- **Ready-made skill:** `$new-widget` followed by a one-line description builds a widget
+  following CLAUDE.md. It's already in this branch.
+- **Custom skill (exercise):** "Create a skill at `.agents/skills/weekly-wins/SKILL.md` that
+  summarises this week's wins from my dashboard data in three bullet points." Use it by
+  typing `$weekly-wins`.
 
 ## Real data
 Working examples (bank CSV, Stripe test mode, weekly email) and a recipe for
