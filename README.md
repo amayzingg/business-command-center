@@ -56,6 +56,7 @@ AGENTS.md            points Codex and other agents to CLAUDE.md
 DEPLOY.md            deploy + lock-down checklist
 REAL-DATA.md         bank CSV, Stripe, weekly email, add your own source
 GOOGLE-SHEETS.md     connect a private Google Sheet (service account)
+GOOGLE-ANALYTICS.md  connect Google Search Console and GA4
 ```
 
 ## Make it yours (before your first deploy)
