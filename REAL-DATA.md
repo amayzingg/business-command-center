@@ -66,7 +66,8 @@ and refetches when you return to the tab, every 5 minutes while it's open, and o
 **Refresh**. Imported files (bank CSV) and `sample.json` stay as they are until you
 re-import or edit them.
 
-**Google Sheet:** see `GOOGLE-SHEETS.md` to read a private sheet with a service account.
+**Google Sheet:** see `GOOGLE-SHEETS.md` to read a private sheet with a service account
+(Google Workspace users: it covers what to do if key creation is blocked).
 
 ## B. Stripe (test mode)
 Only worth it if your business already uses Stripe. Otherwise use A, or follow
