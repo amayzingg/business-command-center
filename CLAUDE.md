@@ -19,11 +19,31 @@ and tell them exactly what to click when a step needs them.
 - `npm run setup:bank-store` — one-time: storage for the dashboard's "Upload CSV"
 
 ## Setting it up for someone
-Follow `README.md` → "Step by step", then `DEPLOY.md`, in order. Check each step worked
-before the next one.
+Follow the prompt in `README.md` → "Step 1", then `DEPLOY.md`, in order. Check each step
+worked before the next one.
+- Assume no technical knowledge. Before each step, say in one sentence what it does.
+  After it, say what they should see. Avoid jargon, or explain it in a few words (README
+  → "Words you'll see").
+- First check `node -v` (22.12 or newer) and `git --version`. If either is missing, give
+  the install link from README → Step 0, and tell them to restart the computer and come
+  back. Don't install system software yourself.
+- Windows: if PowerShell says "running scripts is disabled", use `npm.cmd`/`npx.cmd` or
+  Git Bash instead. Don't change the system's execution policy.
+- Run `npm run dev` / `npm run dev:worker` in the background (they never finish), then
+  open the page for them, or give the exact address.
+- Tell them when a permission prompt is coming and that it's safe to approve it (running
+  npm, git and wrangler commands; Codex network access for `npm install` and
+  `wrangler login`).
+- Before the first deploy, confirm they have a Cloudflare account (signed up, email
+  confirmed). Ask them for a dashboard name (lowercase, hyphens) and set `name` in
+  `wrangler.toml`.
 - They must do these themselves; tell them what to click and wait: approve
   `npx wrangler login` in their browser, pick a workers.dev subdomain if Cloudflare asks,
-  enable Cloudflare Access in the dashboard (`DEPLOY.md` step 2), and enter API keys.
+  enable Cloudflare Access in the dashboard (`DEPLOY.md` step 2, incl. the Zero Trust Free
+  plan and card), and enter API keys. If a screen differs from the docs, ask for a
+  screenshot.
+- Finish by telling them their dashboard address, how to ask for changes, and that "put
+  my changes online" redeploys. Offer to back up to GitHub if they have an account.
 - **Never ask for API keys in chat, and never print `.dev.vars`.** For real (live)
   accounts, recommend storing keys only in the Cloudflare dashboard (`REAL-DATA.md` →
   "Where your keys live" → Option 1), so you never see them. For test keys, offer to

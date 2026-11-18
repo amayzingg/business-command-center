@@ -7,6 +7,10 @@
 # See REAL-DATA.md → "Where your keys live".
 #
 # Keep only the lines you use. secrets:push uploads every KEY=value line here.
+#
+# Quotes: in THIS file, quotes are optional and only needed around values with spaces or
+# \n in them (like the Google private key). When typing a value into the Cloudflare
+# dashboard, leave the quotes out.
 
 # Stripe dashboard → Test mode → Developers → API keys → Secret key
 STRIPE_SECRET_KEY=sk_test_replace_me

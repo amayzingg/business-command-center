@@ -1,49 +1,88 @@
-# Deploy and lock down
+# Put it online and lock it to your email
 
-Goal: the dashboard lives at a `*.workers.dev` URL that **only your email** can open.
+**Goal:** your dashboard gets its own web address (like
+`https://jane-dashboard.jane.workers.dev`) that **only your email can open**. About 15
+minutes, most of it clicking through Cloudflare's website.
 
-It runs on **Cloudflare Workers**: one Worker serves the website, the API routes for real
-data (`worker/api/`) and the weekly email, all set up in `wrangler.toml`.
+**Easiest:** ask your AI assistant *"Put my dashboard online following DEPLOY.md."* It runs
+the commands and tells you when to click. The steps below say what happens, so you know
+what to expect.
 
-You need a Cloudflare account with the free **Zero Trust** plan set up (it needs a card, but nothing is charged).
+> **For the curious:** it runs on **Cloudflare Workers**. One Worker serves the website,
+> the API routes for real data (`worker/api/`) and the weekly email, all set up in
+> `wrangler.toml`.
 
-## 0. Make it yours first (2 minutes)
-Set your name, colors and (optionally) logo in `src/brand.json` so your first live URL
-already looks like yours. See `CLAUDE.md` → brand rules.
+## Before you start
+- **A Cloudflare account:** sign up at https://dash.cloudflare.com/sign-up and click the
+  link in the confirmation email.
+- **Your name and colors set** (README → "Make it yours"), so your first online version
+  already looks like yours. You can change them any time.
 
-## 1. Deploy to Cloudflare Workers
-Pick a name that's likely to be unique, e.g. `jane-command-center`, and set it at the
-top of **`wrangler.toml`**: `name = "jane-command-center"`. It becomes part of your URL.
+## 1. Put it online
+**Choose a name** for your dashboard: lowercase letters, numbers and hyphens, e.g.
+`jane-dashboard`. It becomes the start of your web address. Ask your assistant to set it
+(it goes on the `name = "..."` line at the top of **`wrangler.toml`**).
 
+Your assistant then runs:
 ```bash
 npx wrangler login
+```
+- **Wrangler** is Cloudflare's tool for this. Your browser opens a Cloudflare page asking
+  to allow access, with a long list of permissions. That's normal: click **Allow**. The
+  page then says you can close it. (No browser opened? Copy the link the terminal
+  printed into your browser.)
+
+```bash
 npm run deploy
 ```
-- `wrangler login` opens your browser and asks for a long list of permissions. That's normal.
-- The first time, Cloudflare may ask you to pick a **workers.dev subdomain** for your
-  account (e.g. `jane`). Your URL is then `https://<name>.<subdomain>.workers.dev`.
-- The deploy prints your URL. **Use the URL it prints** from here on.
-- Open the URL to check the dashboard loads. **Right now anyone can open it**, so lock it next.
+- It takes about a minute and ends by printing your address, e.g.
+  `https://jane-dashboard.<something>.workers.dev`. **That's your dashboard's address:
+  save it.**
+- The `<something>` part is your account's **subdomain**. Cloudflare picks one for you,
+  and you can change it later (Troubleshooting below).
+- Open the address. You should see your dashboard with **sample data**.
 
-## 2. Lock it down with Cloudflare Access
-In the Cloudflare dashboard (https://dash.cloudflare.com):
-1. **Workers & Pages** → your Worker → **Settings** → **Domains & Routes**.
-2. On the **workers.dev** row, click **Enable Cloudflare Access**. (If you haven't set up
-   Zero Trust yet, Cloudflare asks for a team name, the Free plan and a card now.)
-3. Click **Manage Cloudflare Access** and check the policy is **Allow** → Include →
-   **Emails** → your email address. Cloudflare usually fills in your account email.
-   Change it if you want a different address, then **Save**.
+**Right now anyone with the address could open it.** It only has sample data, so nothing
+real is exposed, but lock it now (step 2) before adding anything real.
+
+## 2. Lock it with Cloudflare Access (only you can do this part)
+Cloudflare Access is the login screen: it emails a one-time code to the addresses you
+allow. In your browser:
+
+1. Go to https://dash.cloudflare.com → **Workers & Pages** in the left menu → click your
+   dashboard's name → the **Settings** tab → **Domains & Routes**.
+2. On the **workers.dev** row, click **Enable Cloudflare Access**.
+   - **First time only:** Cloudflare asks you to set up **Zero Trust** (the service behind
+     the login screen):
+     - **Team name:** anything, e.g. your business name. It's part of the login page's
+       address, and visitors rarely notice it.
+     - **Plan:** choose **Free** ($0, up to 50 people).
+     - **Card:** Cloudflare asks for one to confirm who you are. **On the Free plan you
+       won't be charged.**
+     - Then come back to this page and click **Enable Cloudflare Access** again if needed.
+3. Click **Manage Cloudflare Access**. Check the rule (Cloudflare calls it a **policy**)
+   says **Allow → Include → Emails → your email address**. In plain words: "only these
+   emails can get in." Cloudflare usually fills in your account email. To let someone
+   else in too, add their email. Click **Save**.
+
+Screens look different? Take a screenshot, paste it into your assistant's chat and ask
+what to click.
 
 This covers the whole Worker: the dashboard, `/api/*` and anything you add later.
 Preview URLs are turned off in `wrangler.toml` (`preview_urls = false`), so there's no
 second address to protect.
 
-## 3. Check it
-- Open your URL in a **private/incognito window**. You should get a Cloudflare login
-  screen asking for your email, not the dashboard. It can take a minute after saving.
-- Enter your email, type in the code you're sent, and the dashboard loads.
-- On your phone: open the URL, sign in once, then "Add to Home Screen".
-- Using the weekly email? Put this URL in `worker/email/email.config.json` → `dashboardUrl`.
+## 3. Check it works
+1. Open a **private window** (Chrome or Edge: **Ctrl+Shift+N**, or **Cmd+Shift+N** on Mac;
+   Safari or Firefox: **Cmd/Ctrl+Shift+P**) and go to your address. You should see a
+   **Cloudflare sign-in page asking for your email**, not the dashboard. Give it a minute
+   after saving step 2, then reload.
+2. Enter your email. A code arrives from Cloudflare (**check spam** if you don't see it).
+   Type it in and your dashboard loads.
+3. **On your phone:** open the address, sign in once, then use **Share → Add to Home
+   Screen** (iPhone) or **⋮ → Add to Home screen** (Android) to get an app icon.
+4. Using the weekly email? Ask your assistant to put this address in the email settings
+   (`worker/email/email.config.json` → `dashboardUrl`).
 
 ## How safe is this?
 **What Access does:** Cloudflare checks every request before it reaches your Worker.
@@ -79,11 +118,13 @@ account**. Turn on two-step verification for it.
 - Anyone you add to the policy sees everything on the dashboard. There are no per-person
   views.
 
-## Redeploy after changes
+## Putting changes online later
+Ask your assistant *"Put my changes online,"* or run:
 ```bash
 npm run deploy
 ```
-This builds the site and deploys the website, API routes and weekly email together.
+This updates the website, API routes and weekly email together. You don't need to log in
+or set up Access again.
 Using API keys (`REAL-DATA.md`)? Add them in the Cloudflare dashboard (most private,
 see `REAL-DATA.md` → "Where your keys live"), or run `npm run secrets:push` after
 changing `.dev.vars`. Either way they apply straight away, with no redeploy needed.

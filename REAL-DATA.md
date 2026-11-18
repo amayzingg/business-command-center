@@ -1,20 +1,22 @@
 # Real data
 
-Three working examples you can copy, plus a recipe for adding your own source.
-Start with **one**. They all feed the same `data` object your widgets read.
+Your dashboard starts with sample data. This guide swaps in your real numbers. Start
+with **one** example. The easiest way: ask your AI assistant, e.g. *"Connect my bank
+statement CSV following REAL-DATA.md"*, and it walks you through it.
 
-> **Built your app from `SPEC.md` on `main`?** The example files are here (`worker/`,
-> `shared/`, `scripts/`, `wrangler.toml`), but your app needs wiring up first. Ask your agent:
-> "Wire up the REAL-DATA.md examples like the `starter` branch: check package.json has the
-> scripts listed in SPEC.md; in App.jsx merge every extra `src/data/*.json` into
-> `data` by file name, preferring `<name>.json` over `<name>.sample.json`; copy
-> `src/liveData.js` from `starter` and use its `{ data, refresh, refreshing }` with the
-> header's live-source chips and Refresh button; add the `CashFlow` widget and
-> `src/components/DataUpload.jsx` (in the header) from `starter`."
-> To see exactly what `starter` has, run `git diff main starter -- package.json src/`.
-> Or switch to `starter`, where it's already done.
+Most real sources need an **API key**: a password that lets your dashboard read data from
+another service. Read "Where your keys live" below first. It keeps those keys away
+from your AI assistant.
 
-| Example | Needs | Live? |
+They all feed the same `data` object your widgets read, so widgets don't care where the
+data came from.
+
+| Easiest first | How |
+|---|---|
+| Upload a spreadsheet (CSV) from the dashboard | "Upload CSV" button, below |
+| A Google Sheet you already keep | `GOOGLE-SHEETS.md` |
+
+| Other examples | Needs | Live? |
 |---|---|---|
 | A. Bank statement CSV | nothing (a CSV export) | when you re-import |
 | B. Stripe (test mode) | only if you already use Stripe | yes, on every page load |
@@ -36,8 +38,15 @@ Cloudflare and never touches your computer.
 2. **Type: Secret**, for every value, even ones that aren't passwords (IDs, emails).
    Text values can be read by anyone with access to your Cloudflare account, AI tools
    using it included. **Variable name:** exactly as in `.dev.vars.example`, e.g.
-   `STRIPE_SECRET_KEY`. **Value:** paste it **without quotes**. In `.dev.vars`, quotes
-   just wrap a value. Cloudflare keeps them as part of it, and the key then fails.
+   `STRIPE_SECRET_KEY`. **Value:** paste it **without quotes**:
+
+   | In `.dev.vars` | In the Cloudflare **Value** box |
+   |---|---|
+   | `GOOGLE_SHEET_ID="1AbC..."` | `1AbC...` |
+   | `STRIPE_SECRET_KEY=sk_test_123` | `sk_test_123` |
+
+   In `.dev.vars`, quotes just wrap a value. Cloudflare keeps them as part of it, and the
+   key then fails.
    For `GOOGLE_SA_PRIVATE_KEY`, paste the `private_key` value from the JSON file as it
    is (from `-----BEGIN` to the final `\n`), without the quotes around it.
 3. Click **Deploy**. The Worker uses it straight away, and later `npm run deploy`s keep it.
@@ -60,10 +69,11 @@ shows sample data on your computer. Test with a **test-mode** key in `.dev.vars`
 (Option 2), then put the real key only in Cloudflare.
 
 ### Option 2: in `.dev.vars` (convenient for local testing)
-Keys go in **`.dev.vars`** at the project root (git-ignored). Copy `.dev.vars.example` →
-`.dev.vars` and fill in what you use. On Windows, Notepad saves `.dev.vars.txt`, which
-won't work. Ask your agent to create the file, then **paste the keys in yourself** in your
-editor, not in chat.
+Keys go in a file called **`.dev.vars`** in the project folder. It's never uploaded to
+GitHub. Files starting with a dot are hidden in Windows Explorer and Mac Finder, so ask your
+assistant: *"Create .dev.vars from .dev.vars.example and open it in Notepad (or TextEdit)
+for me."* Then **paste the keys in yourself** in that window, save, and close it. Never
+paste them into the chat.
 
 - Locally, `npm run dev:worker` reads it (dashboard, API routes and email).
 - `npm run secrets:push` uploads every key in it to your Worker as encrypted secrets
@@ -75,8 +85,12 @@ Either way: never put keys in `src/`, never commit `.dev.vars`, and never paste 
 into chat.
 
 ## Upload CSVs from the dashboard (any device)
-One-time setup: `npm run setup:bank-store` (creates a private Cloudflare KV store and links it
-to the Worker in `wrangler.toml`), then `npm run deploy`.
+The easiest way to get real data in: export a spreadsheet as CSV and upload it, from any
+device, no keys needed.
+
+**One-time setup:** ask your assistant *"Set up Upload CSV and put it online."* It runs
+`npm run setup:bank-store` (which creates private storage in your Cloudflare account,
+called a **KV store**, and links it to the Worker in `wrangler.toml`), then `npm run deploy`.
 
 Then click **Upload CSV** in the header and pick a bank statement, tasks, leads or invoices
 CSV. It works out the type from the column names (common variations like "Task", "Due
@@ -131,7 +145,7 @@ Only worth it if your business already uses Stripe. Otherwise use A, or follow
 How it works: `worker/api/stripe.js` (server-side) → `shared/stripe.js` →
 `src/liveData.js` merges the result over the sample data when the page loads.
 
-### Switch to live Stripe data
+### Switch to live Stripe data (advanced: real money data)
 > **Status: untested with a live Stripe account.** Try the same restricted key in a sandbox
 > first if you can.
 
@@ -167,15 +181,16 @@ turned that on (below), otherwise with **Resend**.
    - **Your domain is on Cloudflare:** see "Send with Cloudflare Email" below. No extra
      account or API key.
 2. Edit `worker/email/email.config.json`: `to`, `subject`, `intro`, which `sections`
-   and in what order, and `dashboardUrl` (your workers.dev URL). Change the schedule in
-   `wrangler.toml` → `[triggers]` (UTC cron, default Mondays 08:00). Change the look in
+   and in what order, and `dashboardUrl` (your workers.dev URL). It's sent Mondays at
+   08:00 UTC (London time in winter). To change it, ask *"Send the weekly email on
+   Fridays at 5pm my time"* (it's the `[triggers]` line in `wrangler.toml`). Change the look in
    `worker/email/render.js`.
 3. `npm run dev:worker` → open http://localhost:8788/email/preview. Open
    http://localhost:8788/email/send to send yourself one now. These two addresses only
    work locally. The deployed Worker answers them with "Not found".
 4. `npm run deploy`. The schedule starts with the next deploy.
 
-### Send with Cloudflare Email
+### Send with Cloudflare Email (advanced: needs your own domain)
 > **Status: tested locally only.** Cloudflare Email Service is in beta, so follow what
 > the dashboard shows if its screens differ.
 
@@ -196,7 +211,7 @@ Cloudflare DNS (added to your Cloudflare account).
 
 Once the binding is on, the Worker uses it and ignores `RESEND_API_KEY`.
 
-### Send from your own domain with Resend
+### Send from your own domain with Resend (advanced)
 > **Status: untested as written.** Follow what Resend shows if its screens differ.
 
 Lets Resend send to any address, not only your Resend login.
@@ -232,3 +247,15 @@ Any API works the same way. Example: tasks from a Notion database instead of the
 
 The rule that keeps this simple: **every source returns data in the shape the widgets
 already read**, so widgets never know where data came from.
+
+## Built your app from `SPEC.md` on `main`?
+> The example files are here (`worker/`,
+> `shared/`, `scripts/`, `wrangler.toml`), but your app needs wiring up first. Ask your agent:
+> "Wire up the REAL-DATA.md examples like the `starter` branch: check package.json has the
+> scripts listed in SPEC.md; in App.jsx merge every extra `src/data/*.json` into
+> `data` by file name, preferring `<name>.json` over `<name>.sample.json`; copy
+> `src/liveData.js` from `starter` and use its `{ data, refresh, refreshing }` with the
+> header's live-source chips and Refresh button; add the `CashFlow` widget and
+> `src/components/DataUpload.jsx` (in the header) from `starter`."
+> To see exactly what `starter` has, run `git diff main starter -- package.json src/`.
+> Or switch to `starter`, where it's already done.
