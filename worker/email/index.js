@@ -7,6 +7,7 @@ import sample from '../../src/data/sample.json'
 import bank from '../.generated/bank.json'
 import brand from '../../src/brand.json'
 import { fetchStripeData } from '../../shared/stripe.js'
+import { fetchSheetsData } from '../../shared/sheets.js'
 import { buildSummary } from '../../shared/summary.js'
 import { readUploads } from '../../shared/datasets.js'
 import { renderEmail } from './render.js'
@@ -27,9 +28,19 @@ async function loadData(env) {
   if (others.length) {
     notes.push(`Uploaded: ${others.map(([, u]) => `${u.label} (${u.source}, ${u.uploadedAt.slice(0, 10)})`).join('; ')}.`)
   }
+  if (env.GOOGLE_SHEET_ID) {
+    try {
+      const sheet = await fetchSheetsData(env)
+      Object.assign(data, sheet, { live: { ...data.live, ...sheet.live } })
+      notes.push(`${Object.values(sheet.live.sheets.tabs).map((t) => t.label).join(' and ')} live from your Google Sheet.`)
+    } catch (err) {
+      notes.push(`Google Sheet unavailable (${err.message}).`)
+    }
+  }
   if (env.STRIPE_SECRET_KEY) {
     try {
-      Object.assign(data, await fetchStripeData(env.STRIPE_SECRET_KEY))
+      const stripe = await fetchStripeData(env.STRIPE_SECRET_KEY)
+      Object.assign(data, stripe, { live: { ...data.live, ...stripe.live } })
       const fetched = new Date()
       notes.push(`Invoices are live from Stripe (test mode), fetched ${fetched.toUTCString().slice(5, 22)} UTC.`)
     } catch (err) {

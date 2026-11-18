@@ -100,8 +100,18 @@ GOOGLE_SHEET_ID=1AbCdEf...
 - `npm run secrets:push` uploads these to Cloudflare for the dashboard (and the weekly
   email), like your other keys. Then redeploy.
 
-## 5. Have your AI tool build it
-Paste this into Claude Code or Codex (change the tab names and fields to yours):
+## 5. The code (already built on `starter`)
+On the `starter` branch this is done for you: `shared/sheets.js` reads every tab,
+`/api/sheets` serves it, and the **Tasks due this week** and **Leads pipeline** widgets
+show it. A tab named `Tasks`, `Leads` or `Invoices` is read as that table. Any other tab
+is recognised from its headers, with the same rules as **Upload CSV** (e.g. `Task`,
+`Due Date`, `Company`, `Status`, `Deal Value` all work). Dates can be in any format the
+sheet understands, and `done` can be a checkbox. Skip to step 6.
+
+**Built your app from `SPEC.md` on `main`?** `shared/sheets.js` and `/api/sheets` are
+there too; ask your agent to add `/api/sheets` to `SOURCES` in `src/liveData.js` and to
+copy the two widgets from `starter`. Or, to build it yourself from scratch, paste this
+into Claude Code or Codex (change the tab names and fields to yours):
 
 > Add a private Google Sheets source, following GOOGLE-SHEETS.md and CLAUDE.md:
 > 1. `shared/sheets.js`: get an OAuth access token for a service account

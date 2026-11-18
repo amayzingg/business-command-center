@@ -4,6 +4,7 @@
 //   everything else  → the built website in dist/
 //   on the schedule  → sends the weekly email (./email/)
 // Once you lock the URL with Cloudflare Access (DEPLOY.md), all of it needs your login.
+import sheets from './api/sheets.js'
 import stripe from './api/stripe.js'
 import uploads from './api/uploads.js'
 import { emailPreview, sendWeeklyEmail } from './email/index.js'
@@ -11,6 +12,7 @@ import { emailPreview, sendWeeklyEmail } from './email/index.js'
 // To add an API route: create ./api/<name>.js that default-exports
 // `async (request, env) => Response`, import it above and list it here.
 const ROUTES = {
+  '/api/sheets': sheets,
   '/api/stripe': stripe,
   '/api/uploads': uploads,
 }

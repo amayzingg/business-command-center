@@ -5,8 +5,9 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 // If a route isn't available (plain `npm run dev`, no key set), the dashboard quietly
 // keeps the sample data.
 // Only responses with a `live` key count as live (they make "today" follow the clock);
-// /api/uploads returns uploaded CSV data without it. Later sources win (live Stripe over an uploaded invoices CSV).
-const SOURCES = ['/api/uploads', '/api/stripe']
+// /api/uploads returns uploaded CSV data without it. Later sources win: a Google Sheet over
+// an uploaded CSV, live Stripe over both for invoices.
+const SOURCES = ['/api/uploads', '/api/sheets', '/api/stripe']
 
 const REFRESH_EVERY_MS = 5 * 60 * 1000 // while the tab is visible
 const MIN_GAP_MS = 15 * 1000 // don't refetch more often than this on tab switches

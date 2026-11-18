@@ -9,8 +9,12 @@ import { parseCsv, summarizeBankCsv } from './bank.js'
 
 const norm = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '')
 
-// A date as YYYY-MM-DD. Accepts YYYY-MM-DD, YYYY/MM/DD and DD/MM/YYYY (or DD.MM.YYYY).
+// A date as YYYY-MM-DD. Accepts YYYY-MM-DD, YYYY/MM/DD and DD/MM/YYYY (or DD.MM.YYYY),
+// and Google Sheets / Excel date serial numbers (days since 1899-12-30).
 export function toIsoDate(value) {
+  if (typeof value === 'number' && value > 20000 && value < 80000) {
+    return new Date(Date.UTC(1899, 11, 30) + Math.floor(value) * 86400000).toISOString().slice(0, 10)
+  }
   const v = String(value ?? '').trim()
   let m = v.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/)
   if (m) return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`
@@ -129,13 +133,19 @@ export function parseDataset(key, text, source) {
   if (!def) throw new Error(`Unknown data type "${key}".`)
   if (key === 'bank') return def.parse(text, source)
 
-  const headers = csvHeaders(text)
+  return parseRecords(key, csvHeaders(text), parseCsv(text))
+}
+
+// Same as parseDataset, for rows that are already objects keyed by header (e.g. a Google
+// Sheet tab). Returns { value, count } or throws with a helpful message.
+export function parseRecords(key, headers, records) {
+  const def = DATASETS[key]
   const map = mapHeaders(def, headers)
   if (!map) {
     const need = Object.values(def.required).map((a) => a[0])
-    throw new Error(`${def.label} need the columns ${need.join(', ')}. This file has: ${headers.join(', ') || 'no header row'}.`)
+    throw new Error(`${def.label} need the columns ${need.join(', ')}. Found: ${headers.join(', ') || 'no header row'}.`)
   }
-  const rows = parseCsv(text).map((r) => Object.fromEntries(Object.entries(map).map(([field, h]) => [field, r[h]])))
+  const rows = records.map((r) => Object.fromEntries(Object.entries(map).map(([field, h]) => [field, r[h]])))
   const value = def.parse(rows)
   if (value.length === 0) {
     throw new Error(`No usable ${def.label.toLowerCase()} rows found. Check dates are like 2026-11-14 or 14/11/2026.`)
