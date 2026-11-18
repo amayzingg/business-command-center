@@ -38,9 +38,8 @@ Cloudflare and never touches your computer.
    using it included. **Variable name:** exactly as in `.dev.vars.example`, e.g.
    `STRIPE_SECRET_KEY`. **Value:** paste it **without quotes**. In `.dev.vars`, quotes
    just wrap a value. Cloudflare keeps them as part of it, and the key then fails.
-   For `GOOGLE_SA_PRIVATE_KEY`, paste the `private_key` value from the JSON file, from
-   `-----BEGIN` to `-----END PRIVATE KEY-----
-`, without the surrounding quotes.
+   For `GOOGLE_SA_PRIVATE_KEY`, paste the `private_key` value from the JSON file as it
+   is (from `-----BEGIN` to the final `\n`), without the quotes around it.
 3. Click **Deploy**. The Worker uses it straight away, and later `npm run deploy`s keep it.
 
 Why it's safer:
