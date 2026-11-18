@@ -1,10 +1,19 @@
 # Business Command Center
 
-A private business dashboard built with Vite + React 19 + Tailwind CSS v4,
-deployed as a static site to Cloudflare Pages behind Cloudflare Access.
+A private business dashboard built with Vite + React 19 + Tailwind CSS v4. It runs on
+Cloudflare Workers (static assets + API routes + a scheduled weekly email, one Worker)
+behind Cloudflare Access.
 
-**The app isn't built yet.** `SPEC.md` describes what to build. Follow it exactly,
-especially the widget structure, so later workshop steps work the same for everyone.
+**The app isn't built yet on this branch.** `SPEC.md` describes what to build. Follow it
+exactly, especially the widget structure, so the other docs (`DEPLOY.md`, `REAL-DATA.md`,
+`PROMPTS.md`) work as written. The `starter` branch has the finished app built from it.
+
+The person you're working with may be setting this up alone from the repo, with no other
+guidance, and may not be a developer. Explain in plain language, run commands yourself,
+and tell them exactly what to click when a step needs them. If they just want a working
+dashboard rather than building one, suggest `git switch starter` and follow its README.
+Never ask for API keys in chat or print `.dev.vars`; see `REAL-DATA.md` → "Where your
+keys live".
 
 ## Commands (once built)
 - `npm install` — install dependencies
@@ -14,8 +23,12 @@ especially the widget structure, so later workshop steps work the same for every
 ## Data
 - `src/data/sample.json` is fake business data (revenue, leads, tasks, invoices).
   Every widget receives the whole object as its `data` prop.
-- `functions/` is for Cloudflare Pages Functions (serverless API routes) once
-  real data sources are connected. Secrets go in Cloudflare env vars, never in `src/`.
+- `worker/` is the Cloudflare Worker (`wrangler.toml` points at `worker/index.js`): it
+  serves the built `dist/`, runs API routes in `worker/api/` (listed in `ROUTES` in
+  `worker/index.js`) once real data sources are connected, and sends the weekly email
+  (`worker/email/`). Secrets are Cloudflare Worker secrets, never in `src/`.
+  Leave `worker/`, `shared/`, `scripts/` and `wrangler.toml` as they are while building
+  from the spec; `REAL-DATA.md` explains how to wire them in afterwards.
 
 ## Rules for widgets
 - **One widget = one file** in `src/widgets/`, PascalCase name ending in what it is

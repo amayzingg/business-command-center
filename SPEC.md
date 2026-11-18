@@ -5,8 +5,22 @@ Build a private, mobile-friendly dashboard for a small business.
 ## Stack
 - **Vite 8** (`vite@^8`, `@vitejs/plugin-react@^6`) + React 19 + Tailwind CSS v4 (via
   `@tailwindcss/vite`), plain JavaScript (JSX). Needs Node.js 22.12 or newer (check with `node -v`).
-- Static site, deployed to Cloudflare Pages (see `DEPLOY.md`).
+- Static site, served by a Cloudflare Worker (static assets; see `DEPLOY.md`). The Worker
+  (`worker/`, `wrangler.toml`) and its helper scripts (`scripts/`) already exist: don't
+  change them.
 - No UI or charting libraries.
+- `package.json` (`"type": "module"`) scripts, exactly:
+  ```json
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview",
+  "import:bank": "node scripts/import-bank.mjs",
+  "seed:stripe": "node scripts/seed-stripe.mjs",
+  "dev:worker": "node scripts/pick-bank.mjs && vite build && npx wrangler dev --var ALLOW_PREVIEW:1 --port 8788",
+  "deploy": "node scripts/deploy.mjs",
+  "setup:bank-store": "node scripts/setup-bank-store.mjs",
+  "secrets:push": "node scripts/push-secrets.mjs"
+  ```
 
 ## Shell
 - `index.html` → `src/main.jsx` → `src/App.jsx`, styles in `src/index.css`.

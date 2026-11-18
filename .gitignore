@@ -5,7 +5,7 @@ dist
 .env.*
 .DS_Store
 
-# Keys: one .dev.vars at the root (copied into email-worker/ by npm run email:dev)
+# Keys: one .dev.vars at the root (read by npm run dev:worker)
 .dev.vars*
 !.dev.vars.example
 # Real bank exports stay on your machine (the fake sample is fine)
@@ -14,7 +14,9 @@ data/*.csv
 
 # Imported bank data is real: never commit it (the fictional bank.sample.json is tracked)
 src/data/bank.json
-# Generated at deploy time from bank.json or bank.sample.json
+# Generated at deploy time from bank.json or bank.sample.json (email-worker/ is the
+# pre-Workers location, kept so an old copy of real data is never committed)
+worker/.generated/
 email-worker/.generated/
 
 # Google service account key files (copy the values into .dev.vars, then delete the file)

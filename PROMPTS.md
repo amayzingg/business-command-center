@@ -66,7 +66,7 @@ adding your own source are in `REAL-DATA.md`.
 
 Prompts to adapt:
 - Replace the sample invoices with data from [Stripe / QuickBooks / a Google Sheet]
-  using a Cloudflare Pages Function in `functions/api/`. Keep the API key in an
+  using an API route in `worker/api/` (see `worker/README.md`). Keep the API key in an
   environment variable.
 - Use the [Notion / Gmail / Calendar] connector to pull [my tasks / unread
   client emails / today's meetings] into a widget.

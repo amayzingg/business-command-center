@@ -5,7 +5,7 @@
   "subject": "{name} weekly summary · {date}",
   "intro": "Here's where the business stands this week.",
   "sections": ["revenue", "invoices", "cash", "tasks", "leads"],
-  "dashboardUrl": "https://business-command-center.pages.dev",
+  "dashboardUrl": "",
   "logoUrl": "",
   "signoff": "Sent automatically by your command center."
 }

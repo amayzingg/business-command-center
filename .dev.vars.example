@@ -1,12 +1,18 @@
-# Copy this file to .dev.vars (git-ignored). It's the ONE place for your keys:
-# the dashboard and the weekly email both read it locally, and
-# `npm run secrets:push` uploads it to Cloudflare for both.
-# Never commit .dev.vars, never put keys in src/.
+# Copy this file to .dev.vars (git-ignored) for LOCAL testing: `npm run dev:worker`
+# reads it, and `npm run secrets:push` uploads it to your Cloudflare Worker.
+# Never commit .dev.vars, never put keys in src/, never paste keys into chat.
+#
+# More private for real (live) accounts: skip this file and type the key only in the
+# Cloudflare dashboard, so it never sits on your computer where AI tools can read it.
+# See REAL-DATA.md → "Where your keys live".
+#
+# Keep only the lines you use. secrets:push uploads every KEY=value line here.
 
 # Stripe dashboard → Test mode → Developers → API keys → Secret key
 STRIPE_SECRET_KEY=sk_test_replace_me
 
-# Optional, for the weekly email: resend.com → API Keys → Create (Sending access)
+# Optional, for the weekly email (not needed if you use Cloudflare Email):
+# resend.com → API Keys → Create (Sending access)
 RESEND_API_KEY=re_replace_me
 
 # Optional, private Google Sheet (see GOOGLE-SHEETS.md). From the service account's JSON

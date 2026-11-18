@@ -16,7 +16,7 @@ const json = (body, status = 200) => Response.json(body, { status, headers: { 'C
 // cross-site without a CORS preflight, which this route never approves.
 const fromDashboard = (request) => request.headers.get('X-Requested-With') === 'command-center'
 
-export async function onRequest({ request, env }) {
+export default async function uploads(request, env) {
   if (!env.BANK) {
     return json({ error: 'Upload storage is not set up. Run `npm run setup:bank-store`, then redeploy.' }, 501)
   }
