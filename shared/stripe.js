@@ -1,5 +1,5 @@
-// Shared by the website's API route (functions/api/stripe.js) and the weekly email Worker
-// (email-worker/). Runs on Cloudflare only: the key never reaches the browser.
+// Shared by the website's API route (worker/api/stripe.js) and the weekly email
+// (worker/email/). Runs on Cloudflare only: the key never reaches the browser.
 
 const STATUS = { paid: 'paid', draft: 'draft', void: 'void', uncollectible: 'overdue' }
 

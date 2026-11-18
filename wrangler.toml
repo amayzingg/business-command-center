@@ -1,0 +1,38 @@
+# Your dashboard on Cloudflare Workers: the website (static files in dist/), the API
+# routes in worker/api/ and the weekly email, all in ONE Worker.
+#   Deploy:  npm run deploy        Test locally:  npm run dev:worker
+#
+# `name` becomes your URL: https://<name>.<your-subdomain>.workers.dev
+# Change it to something likely to be unique (e.g. "jane-command-center") before your
+# first deploy. The npm scripts read it from here.
+name = "business-command-center"
+main = "worker/index.js"
+compatibility_date = "2026-10-01"
+
+# Lock the workers.dev URL with Cloudflare Access (DEPLOY.md, step 2).
+# Preview URLs are off so there's only one address to protect.
+workers_dev = true
+preview_urls = false
+
+# The built website. /api/* and /email/* go to worker/index.js first; everything else
+# is a file from dist/ (unknown paths get index.html).
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+run_worker_first = ["/api/*", "/email/*"]
+
+# When to send the weekly email, in UTC (Cron syntax). "0 8 * * MON" = Mondays 08:00 UTC
+# (= 08:00 Lisbon/London in winter, 09:00 in summer). Change it, then redeploy.
+[triggers]
+crons = ["0 8 * * MON"]
+
+# Optional: send the weekly email with Cloudflare Email Service instead of Resend.
+# Needs a domain on Cloudflare (REAL-DATA.md → "Send with Cloudflare Email").
+# To turn it on, remove the # from the next two lines and redeploy.
+# [[send_email]]
+# name = "EMAIL"
+
+# Secrets (never in this file) live in the root .dev.vars:
+#   local:     npm run dev:worker reads it
+#   deployed:  npm run secrets:push uploads it to this Worker

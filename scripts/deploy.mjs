@@ -1,16 +1,13 @@
-// Build and deploy the dashboard to Cloudflare Pages (production), using the project name
-// in package.json → "config": { "pagesProject": "…" }. Always deploys as branch `main`
-// so it goes to production, not a preview.
+// Build and deploy the dashboard, its API routes and the weekly email to Cloudflare
+// Workers, using the settings (and the name) in wrangler.toml.
 //
 //   npm run deploy
-import { readFileSync } from 'node:fs'
 import { execSync } from 'node:child_process'
+import { workerName } from './worker-name.mjs'
 
-const project = JSON.parse(readFileSync('package.json', 'utf8')).config?.pagesProject
-if (!project) {
-  console.error('Set "config": { "pagesProject": "<your Pages project name>" } in package.json.')
-  process.exit(1)
-}
+const name = workerName()
 const run = (cmd) => execSync(cmd, { stdio: 'inherit' })
+run('node scripts/pick-bank.mjs')
 run('npm run build')
-run(`npx wrangler pages deploy dist --project-name ${project} --branch main`)
+console.log(`Deploying Worker "${name}"…`)
+run('npx wrangler deploy')

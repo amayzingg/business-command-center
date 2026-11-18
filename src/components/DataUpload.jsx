@@ -31,7 +31,7 @@ export default function DataUpload({ uploads = {}, onDone }) {
     setBusy(false)
     if (status === 501 || (!ok && !body.error)) {
       setPending(null)
-      setMessage({ error: true, text: body.error || 'Upload needs the site running with functions (npm run dev:functions).' })
+      setMessage({ error: true, text: body.error || 'Upload needs the site running with its Worker (npm run dev:worker).' })
       return
     }
     setPending({ file, text, dataset: body.dataset || (dataset === 'auto' ? '' : dataset), count: ok ? body.count : 0, error: ok ? '' : body.error })

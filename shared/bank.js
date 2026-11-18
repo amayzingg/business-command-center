@@ -1,6 +1,6 @@
 // Bank-statement CSV → the `bank` summary the Cash flow widget and the weekly email read.
 // Shared by `npm run import:bank` (scripts/import-bank.mjs), the dashboard's upload
-// button (functions/api/bank.js) and /update-bank, so every path reads CSVs the same way.
+// button (worker/api/uploads.js) and /update-bank, so every path reads CSVs the same way.
 //
 // Expected columns. If your bank's export uses other names, change them HERE once:
 //   Date (YYYY-MM-DD), Description, Category, Amount (negative = money out), Balance

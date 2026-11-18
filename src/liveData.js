@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-// API routes (Cloudflare Pages Functions in functions/api/) whose JSON is merged over the
+// API routes (worker/api/, listed in worker/index.js) whose JSON is merged over the
 // sample data. Each returns a partial `data` object, e.g. { invoices: [...], live: {...} }.
 // If a route isn't available (plain `npm run dev`, no key set), the dashboard quietly
 // keeps the sample data.

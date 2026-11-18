@@ -12,7 +12,7 @@ that tool instead.
 A plain Google API key can only read a sheet that's shared as **"Anyone with the link"**,
 which makes your business data public. A **service account** is a robot Google user. You
 share the sheet with just that robot (as Viewer), so the sheet stays private. The
-dashboard reads it server-side (a Cloudflare Pages Function), so the key never reaches
+dashboard reads it server-side (in its Cloudflare Worker), so the key never reaches
 the browser.
 
 ## 1. Lay out the sheet
@@ -115,18 +115,22 @@ Paste this into Claude Code or Codex (change the tab names and fields to yours):
 >    https://sheets.googleapis.com/v4/spreadsheets/{GOOGLE_SHEET_ID}/values/{Tab}` and
 >    turn rows into objects using the header row. Convert `TRUE/FALSE` to booleans and
 >    numeric columns to numbers.
-> 2. `functions/api/sheets.js`: return `{ tasks: [...], leads: [...], live: { sheets:
+> 2. `worker/api/sheets.js` (default-export `async (request, env) => Response`, like
+>    `worker/api/stripe.js`): return `{ tasks: [...], leads: [...], live: { sheets:
 >    { fetchedAt } } }` in the same shapes as `src/data/sample.json`, with
 >    `Cache-Control: no-store`. Return 501 with a clear message if a key is missing.
-> 3. Add `/api/sheets` to `SOURCES` in `src/liveData.js`.
-> 4. If `email-worker/` exists, load the same data in `email-worker/src/index.js` the
+> 3. Add the route to `ROUTES` in `worker/index.js`, and `/api/sheets` to `SOURCES` in
+>    `src/liveData.js`.
+> 4. Load the same data in the weekly email (`worker/email/index.js`) the
 >    way Stripe is loaded.
-> 5. Run `npm run build`, test with `npm run dev:functions`, and show me the result.
+> 5. Run `npm run build`, test with `npm run dev:worker`, and show me the result.
 
 ## 6. Check it
-- `npm run dev:functions` → http://localhost:8788. The header should show **Live: sheets**,
+- `npm run dev:worker` → http://localhost:8788. The header should show **Live: sheets**,
   and your widgets should show the sheet's rows. Edit a cell, click **Refresh**, and it updates.
-- `npm run secrets:push`, build + deploy. The `/api/sheets` route is behind your Access login.
+- `npm run deploy`, then add the keys to the Worker (`npm run secrets:push`, or type them
+  in the Cloudflare dashboard: `REAL-DATA.md` → "Where your keys live"). The
+  `/api/sheets` route is behind your Access login.
 
 ## Troubleshooting
 - **403 / "The caller does not have permission":** the sheet isn't shared with the

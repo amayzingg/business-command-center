@@ -1,5 +1,5 @@
 // CSV uploads: which table a CSV belongs to, and how to turn it into dashboard data.
-// Used by functions/api/uploads.js (and the email Worker reads what it stores).
+// Used by worker/api/uploads.js (and the weekly email reads what it stores).
 //
 // To support another table, add an entry to DATASETS: its columns (with alternative
 // header names people commonly use) and a `parse` that returns the value stored under
@@ -143,8 +143,8 @@ export function parseDataset(key, text, source) {
   return { value, count: value.length }
 }
 
-// Everything uploaded from the dashboard (stored in KV by functions/api/uploads.js), ready
-// to merge over the dashboard data. Used by the API route and the weekly email Worker.
+// Everything uploaded from the dashboard (stored in KV by worker/api/uploads.js), ready
+// to merge over the dashboard data. Used by the API route and the weekly email.
 export const uploadKey = (dataset) => `upload:${dataset}`
 export async function readUploads(kv) {
   const out = { uploads: {} }

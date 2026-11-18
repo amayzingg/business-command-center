@@ -38,7 +38,7 @@ const sizeClasses = {
 }
 
 export default function App() {
-  // Sample + imported data, then live API data (functions/api/) merged over it on load.
+  // Sample + imported data, then live API data (worker/api/) merged over it on load.
   // With a live source, data.asOf becomes today; it refetches on tab focus, every 5 min, and on Refresh.
   const { data, refresh, refreshing } = useLiveData(baseData)
   const liveSources = Object.keys(data.live ?? {})

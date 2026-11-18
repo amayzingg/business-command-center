@@ -48,13 +48,14 @@ Paste this into Claude Code or Codex:
 > (`crypto.subtle.importKey` with PKCS#8 and `RSASSA-PKCS1-v1_5`/SHA-256), exchanging it at
 > `https://oauth2.googleapis.com/token`, and turning literal `\n` in the key into newlines
 > first. **Don't use the `googleapis` npm library: Cloudflare can't run it.**
-> 1. Add `functions/api/google-search.js` using scope
+> 1. Add `worker/api/google-search.js` (default-export `async (request, env) => Response`,
+>    like `worker/api/stripe.js`) using scope
 >    `https://www.googleapis.com/auth/webmasters.readonly`. POST to
 >    `https://www.googleapis.com/webmasters/v3/sites/{URL-encoded GSC_SITE_URL}/searchAnalytics/query`
 >    with `startDate`, `endDate` (YYYY-MM-DD) and `dimensions`. Return clicks, impressions, CTR
 >    and average position for the last 28 days, plus top queries and top pages (`query` and
 >    `page` dimensions, `rowLimit` 10). End the range 3 days ago because recent data lags.
-> 2. Add `functions/api/analytics.js` using scope
+> 2. Add `worker/api/analytics.js` the same way, using scope
 >    `https://www.googleapis.com/auth/analytics.readonly`. POST to
 >    `https://analyticsdata.googleapis.com/v1beta/properties/{GA4_PROPERTY_ID}:runReport`
 >    with `dateRanges` (`28daysAgo` to `today`), `metrics` (`totalUsers`, `sessions`) and, for
@@ -64,10 +65,11 @@ Paste this into Claude Code or Codex:
 >    `{ traffic: {...}, live: { analytics: { fetchedAt } } }`, where `fetchedAt` is when Google
 >    was actually called. Cache each response on the server for one hour (KV with
 >    `expirationTtl: 3600` if a KV binding exists, otherwise the Cache API). Return 501 with a
->    clear message if a value is missing. Add both routes to `SOURCES` in `src/liveData.js`.
+>    clear message if a value is missing. Add both routes to `ROUTES` in `worker/index.js`
+>    and to `SOURCES` in `src/liveData.js`.
 > 4. Add `SearchPerformance` and `SiteTraffic` widgets that read `data.search` and
 >    `data.traffic`, and show an empty state when they're missing. Run `npm run build`, test
->    with `npm run dev:functions`, and show me the result.
+>    with `npm run dev:worker`, and show me the result.
 
 ## 5. Ship
 ```bash
@@ -77,6 +79,8 @@ npm run secrets:push
 npm run deploy
 ```
 `secrets:push` uploads everything in the root `.dev.vars`, including these two settings.
+Prefer to keep the key off your computer? Type the values into the Cloudflare dashboard
+instead (`REAL-DATA.md` → "Where your keys live").
 
 ## What to expect
 - **Search Console usually lags 2–3 days**, so the newest days are missing.
@@ -92,4 +96,4 @@ npm run deploy
   Check `sc-domain:` versus a full URL, `https` versus `http`, `www`, and the trailing slash.
 - **GA4 400 or 404:** `GA4_PROPERTY_ID` should be the numeric property ID, not `G-XXXXXXX`.
 - **Value "is missing" locally:** check the exact names in `.dev.vars`, then restart
-  `npm run dev:functions`.
+  `npm run dev:worker`.

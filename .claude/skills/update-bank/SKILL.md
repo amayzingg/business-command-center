@@ -27,7 +27,6 @@ beyond what's needed to confirm columns).
    the new balance, the right months and "Imported <date> from <file>" (not "Sample bank
    data"). Check light mode and 375px dark mode.
 6. **Redeploy** (ask first if the user hasn't said to deploy):
-   - Dashboard: `npm run deploy` (uses `config.pagesProject` from package.json, production).
-   - Weekly email, if `email-worker/` exists: `npm run email:deploy`.
+   - `npm run deploy` (the Worker named in `wrangler.toml`: dashboard and weekly email together).
 7. **Confirm** in 2–3 lines: the balance and period now shown, what was deployed, and a
    reminder that the CSV and `bank.json` stay on this machine only.
