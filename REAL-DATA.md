@@ -33,8 +33,14 @@ Type each key straight into the Cloudflare dashboard. It's stored encrypted on
 Cloudflare and never touches your computer.
 1. https://dash.cloudflare.com → **Workers & Pages** → your Worker (the `name` in
    `wrangler.toml`) → **Settings** → **Variables and Secrets** → **+ Add**.
-2. **Type: Secret** (not Text). **Variable name:** exactly as in `.dev.vars.example`,
-   e.g. `STRIPE_SECRET_KEY`. **Value:** paste the key.
+2. **Type: Secret**, for every value, even ones that aren't passwords (IDs, emails).
+   Text values can be read by anyone with access to your Cloudflare account, AI tools
+   using it included. **Variable name:** exactly as in `.dev.vars.example`, e.g.
+   `STRIPE_SECRET_KEY`. **Value:** paste it **without quotes**. In `.dev.vars`, quotes
+   just wrap a value. Cloudflare keeps them as part of it, and the key then fails.
+   For `GOOGLE_SA_PRIVATE_KEY`, paste the `private_key` value from the JSON file, from
+   `-----BEGIN` to `-----END PRIVATE KEY-----
+`, without the surrounding quotes.
 3. Click **Deploy**. The Worker uses it straight away, and later `npm run deploy`s keep it.
 
 Why it's safer:

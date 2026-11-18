@@ -14,6 +14,10 @@ compatibility_date = "2026-10-01"
 workers_dev = true
 preview_urls = false
 
+# Keep variables you add in the Cloudflare dashboard when you redeploy (otherwise
+# `npm run deploy` removes "Text" ones). Secrets are always kept.
+keep_vars = true
+
 # The built website. /api/* and /email/* go to worker/index.js first; everything else
 # is a file from dist/ (unknown paths get index.html).
 [assets]
