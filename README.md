@@ -1,89 +1,165 @@
 # Business Command Center
 
-A private dashboard for your business that only you can open, on your phone or computer.
-It's built with React + Tailwind and runs on **Cloudflare Workers**, with **Cloudflare
-Access** for the login. You build and change it by asking an AI coding agent (Claude Code
-or OpenAI Codex) in plain English.
+A private dashboard for your business, showing revenue, cash, tasks and leads at a
+glance, on your phone or computer. **Only you can open it**: it asks for a code sent to
+your email.
 
-## Two starting points
-- **`starter` branch (recommended):** the app is already built (dashboard shell, two
-  example widgets, sample data, working examples for real data). Its README walks you
-  through setup step by step.
-- **`main` (this branch):** no app yet, only [`SPEC.md`](SPEC.md). Pick this if you want to
-  watch your agent build the dashboard from the spec first.
+You don't need to know how to code. You build and change it by chatting with an AI
+assistant (**Claude Code** or **OpenAI Codex**) in plain English, e.g. *"Add a widget
+showing invoices that are overdue."*
 
-## What you need
-- **Node.js 22.12 or newer** (check with `node -v`) and **Git**
-- **Claude Code** or **Codex**, installed and signed in
-- A **Cloudflare** account (free), with the free **Zero Trust** plan for the login screen.
-  Zero Trust asks for a card, but the Free plan charges nothing.
-- Optional: a **GitHub** account, to keep your own private copy
+It comes ready to use with sample data, and you swap in your real data later. The setup
+below uses the finished version (the `starter` branch) automatically.
 
-## The fastest way: let your agent set it up
-Get a copy (step 1 below), open the folder in Claude Code or Codex, and paste:
+## What it costs
+- **Cloudflare** (where your dashboard lives online): **free**. To set up the login
+  screen, Cloudflare asks for a card to confirm who you are. Pick the **Free** plan and
+  you won't be charged.
+- **An AI assistant:** Claude Code needs a paid Claude plan (Pro or above), and Codex
+  needs a paid ChatGPT plan (Plus or above). You only need one of them.
+- **GitHub** (optional, for a backup copy of your project): free.
 
-> Set this project up for me. Switch to the `starter` branch, then follow its README.md
-> and DEPLOY.md one step at a time. Run the commands yourself, and stop to tell me exactly
-> what to click whenever a step needs me (signing in, the Cloudflare dashboard, or keys).
-> Never ask me to paste an API key into chat.
+## Step 0: Install the tools (once, about 15 minutes)
+Install these four things. Accept the default options in each installer.
 
-## Step by step
+| Tool | What it is | Get it |
+|---|---|---|
+| **An AI assistant** | Does the work for you | **Claude desktop app** (easiest; use its **Code** tab): https://claude.ai/download · or **Codex**: https://developers.openai.com/codex |
+| **Node.js** (the "LTS" version) | Runs the dashboard on your computer | https://nodejs.org |
+| **Git** | Downloads and keeps track of the project files | Windows: https://git-scm.com/downloads · Mac: open **Terminal** and type `git --version`, then click **Install** when asked |
+| **A Cloudflare account** | Puts your dashboard online | https://dash.cloudflare.com/sign-up (then confirm your email) |
 
-### 1. Get your own copy
-**With GitHub (recommended, so your changes are backed up):**
-1. On this repo's GitHub page, click **Use this template → Create a new repository**.
-2. Tick **Include all branches**. Without it your copy has no `starter` branch.
-3. Choose **Private**, give it a name (e.g. `my-command-center`), and create it.
-4. Clone it (use your own username and repo name):
+**Restart your computer** after installing Node.js and Git, so everything picks them up.
+
+## Step 1: Let your AI assistant set it up (recommended)
+1. Make an empty folder for the project, e.g. **Documents → My dashboard**.
+2. Open your AI assistant in that folder:
+   - **Claude desktop app:** open the **Code** tab → choose that folder.
+   - **Codex:** open it and point it at that folder.
+3. Paste this message and press Enter:
+
+> I'm not technical. Please set up the Business Command Center dashboard for me in this
+> folder:
+> 1. Check that Node.js (version 22.12 or newer) and Git are installed. If not, tell me
+>    exactly how to install them, then wait.
+> 2. Download the project with
+>    `git clone https://github.com/amayzingg/business-command-center.git`, go into that
+>    folder, and switch to the `starter` branch. From then on, follow its README.md,
+>    DEPLOY.md and CLAUDE.md.
+> 3. Install it, start it in the background, and open it so I can see the sample dashboard.
+> 4. Ask me my business name and colors (or my website, so you can pick them up), and
+>    whether I have a logo. Then set them.
+> 5. Put it online with Cloudflare and lock it so only my email can open it.
+> Before each step, tell me in one sentence what it does. After it, tell me what I should
+> see. Whenever I need to click something (signing in, the Cloudflare website), tell me
+> exactly what to click and wait for me. Never ask me to paste a password or API key into
+> this chat. At the end, tell me my dashboard's web address and how to make changes later.
+
+**What happens next:** the assistant runs the steps and checks in with you. It will ask
+permission before running commands. That's normal: approve them (in Claude, click
+**Allow**; in Codex, approve the request). You'll need to do three things yourself, and
+it will tell you when:
+- sign in to Cloudflare in your browser, by clicking **Allow** on the page that opens;
+- turn on the login screen in the Cloudflare website (`DEPLOY.md`, step 2);
+- later, if you connect real data, enter your API keys (never in the chat).
+
+If something on a website looks different from what it says, take a screenshot, paste it
+into the chat and ask what to click.
+
+## Step 2: Make it yours
+Just ask, in your own words. For example:
+- *"Show me the dashboard."*
+- *"Add a widget showing tasks due this week."* More ideas: [`PROMPTS.md`](PROMPTS.md).
+- *"Change the colors to match my website, example.com."*
+- *"Connect my Google Sheet of leads."* Guides: [`REAL-DATA.md`](REAL-DATA.md),
+  [`GOOGLE-SHEETS.md`](GOOGLE-SHEETS.md).
+- *"Put my changes online."* (the assistant runs `npm run deploy`)
+
+Changes show up on your computer first. They appear on your online dashboard only after
+you ask the assistant to put them online.
+
+**Saving your work:** if you use GitHub, ask *"Save my changes to GitHub."* Otherwise your
+project lives only in that folder, so don't delete it.
+
+## Words you'll see
+| Word | What it means |
+|---|---|
+| **Terminal** | A window where you (or your assistant) type commands. Your assistant has one built in. |
+| **Clone** | Download a copy of the project from GitHub. |
+| **Branch** | A version of the project. `starter` is the finished one you want. |
+| **localhost** | A web address that only works on your computer, for previewing, e.g. http://localhost:5173. |
+| **Build / deploy** | Package the dashboard / put it online. |
+| **Cloudflare Worker** | Your dashboard's home online. It also fetches your real data and sends your weekly email. |
+| **workers.dev address** | Your dashboard's web address, e.g. `https://my-dashboard.yourname.workers.dev`. |
+| **Cloudflare Access / Zero Trust** | The login screen in front of your dashboard. It emails you a code. |
+| **Wrangler** | Cloudflare's tool your assistant uses to put the dashboard online. |
+| **API key** | A password that lets your dashboard read data from another service (e.g. Stripe). Keep it secret. |
+| **Secret** | An API key stored safely in Cloudflare, where nobody (including your AI) can read it back. |
+| **`.dev.vars`** | A file on your computer for test keys. It's never uploaded to GitHub. |
+
+## Doing it yourself (without the assistant running commands)
+Prefer to type the commands? Open a terminal: on Windows, **Git Bash** (installed with Git);
+on Mac, **Terminal**. Type each command, then press Enter.
+
+1. Download the project (into your home folder) and go into it:
    ```bash
-   git clone https://github.com/<your-username>/my-command-center.git
+   git clone https://github.com/amayzingg/business-command-center.git
    ```
-   Git asks you to sign in to GitHub the first time, because your copy is private.
+   ```bash
+   cd business-command-center
+   ```
+   (`cd` means "go into this folder".)
+2. Switch to the finished version and install it (takes a minute):
+   ```bash
+   git switch starter
+   ```
+   ```bash
+   npm install
+   ```
+3. Start it:
+   ```bash
+   npm run dev
+   ```
+   You should see `Local: http://localhost:5173`. Open that address in your browser to
+   see the dashboard with sample data. **The terminal stays busy while it runs.** That's
+   normal: leave it open, and press **Ctrl+C** in it to stop.
+4. To put it online, follow [`DEPLOY.md`](DEPLOY.md).
 
-**Without GitHub:** clone the public template. Everything works the same, but your changes
-stay only on your computer.
-```bash
-git clone https://github.com/amayzingg/business-command-center.git
+**Want your own copy on GitHub** (a backup you can sync)? On this repo's GitHub page,
+click **Use this template → Create a new repository**, tick **Include all branches**,
+choose **Private**, then clone *your* repo's address instead of the one above.
+
+## If something goes wrong
+- **"node" or "git" is not recognized / command not found:** it isn't installed, or you
+  need to restart your computer after installing it.
+- **Windows: "running scripts is disabled on this system":** run the command in **Git Bash**
+  instead of PowerShell, or ask your assistant to fix it.
+- **Port already in use:** it opens on the next port (5174…). Use the address it prints.
+- **A file called `.dev.vars` was saved as `.dev.vars.txt`** (Windows Notepad does this): ask
+  your assistant to rename it, or save with "Save as type: All files".
+- **Anything else:** copy the error message into the chat and ask your assistant.
+  `CHEATSHEET.md` has more fixes.
+
+## For the curious: what's in the folder
 ```
-
-### 2a. Use the ready-made app (recommended)
-From the folder you just cloned:
-```bash
-git switch starter
-```
-Then continue with the README on that branch (it changes when you switch).
-
-### 2b. Or build it from the spec
-Stay on `main`. Open the folder in Claude Code or Codex, switch to **plan mode**, and ask:
-> Read SPEC.md and CLAUDE.md, then plan how to build the dashboard.
-
-Review the plan, then let it build. You're done when `npm run dev` shows the dashboard
-at http://localhost:5173. Then:
-- **Make it yours:** ask "Set my brand in src/brand.json: name "Your Business", primary
-  color #…, accent color #…. Then build and show me."
-- **Put it online:** follow [`DEPLOY.md`](DEPLOY.md).
-- **Real data:** [`REAL-DATA.md`](REAL-DATA.md) starts with a prompt that wires the examples
-  into your build.
-
-If your build goes sideways, `git switch starter` gets you the known-good app (commit
-your work first).
-
-**Windows:** if you create a file like `.dev.vars` yourself, make sure it isn't saved as
-`.dev.vars.txt` (in Notepad, choose "Save as type: All files"), or ask your agent to create it.
-
-## What's here
-```
-SPEC.md              what to build (the starter branch is built from it)
-CLAUDE.md            rules every AI agent follows in this project (read it first)
-AGENTS.md            points Codex and other agents to CLAUDE.md
-src/data/sample.json fake business data
-worker/              the Cloudflare Worker: API routes for real data, weekly email
-wrangler.toml        Cloudflare settings: Worker name, schedule, storage
-scripts/             helpers the starter's npm scripts run (deploy, secrets, bank import…)
-DEPLOY.md            deploy + lock-down checklist
-REAL-DATA.md         bank CSV, Stripe, weekly email, your own sources, where keys live
-GOOGLE-SHEETS.md     connect a private Google Sheet (service account)
+README.md            this guide
+SPEC.md              the plan the app is built from
+DEPLOY.md            put it online and lock it to your email
+REAL-DATA.md         connect real data (bank CSV, Stripe, Google Sheets, weekly email)
+GOOGLE-SHEETS.md     connect a private Google Sheet
 GOOGLE-ANALYTICS.md  connect Google Search Console and GA4
-PROMPTS.md           prompts to copy (Claude Code + Codex)
-CHEATSHEET.md        one page: commands, and Claude Code vs Codex
+PROMPTS.md           things to ask your assistant
+CHEATSHEET.md        commands and fixes on one page
+CLAUDE.md, AGENTS.md instructions your AI assistant reads automatically
+src/data/sample.json sample data
+worker/              the code that runs online (real data, weekly email)
+wrangler.toml        Cloudflare settings
 ```
+## Advanced: build the dashboard from scratch
+You're on `main`, which has only the plan for the app ([`SPEC.md`](SPEC.md)), not the app
+itself. To watch your assistant build it: download the project, stay on `main`, open the
+folder in your assistant, switch to **plan mode**, and ask *"Read SPEC.md and CLAUDE.md,
+then plan how to build the dashboard."* Review the plan, then let it build. It's done when
+`npm run dev` shows the dashboard. Then continue with DEPLOY.md and REAL-DATA.md (which
+starts with a prompt that wires in the real-data examples). If it goes sideways, ask
+*"Save my work and switch to the starter branch."*
