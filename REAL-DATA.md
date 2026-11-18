@@ -3,6 +3,17 @@
 Three working examples you can copy, plus a recipe for adding your own source.
 Start with **one**. They all feed the same `data` object your widgets read.
 
+> **Built your app from `SPEC.md` on `main`?** The example files are here (`worker/`,
+> `shared/`, `scripts/`, `wrangler.toml`), but your app needs wiring up first. Ask your agent:
+> "Wire up the REAL-DATA.md examples like the `starter` branch: check package.json has the
+> scripts listed in SPEC.md; in App.jsx merge every extra `src/data/*.json` into
+> `data` by file name, preferring `<name>.json` over `<name>.sample.json`; copy
+> `src/liveData.js` from `starter` and use its `{ data, refresh, refreshing }` with the
+> header's live-source chips and Refresh button; add the `CashFlow` widget and
+> `src/components/DataUpload.jsx` (in the header) from `starter`."
+> To see exactly what `starter` has, run `git diff main starter -- package.json src/`.
+> Or switch to `starter`, where it's already done.
+
 | Example | Needs | Live? |
 |---|---|---|
 | A. Bank statement CSV | nothing (a CSV export) | when you re-import |
