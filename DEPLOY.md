@@ -57,6 +57,12 @@ changing `.dev.vars`. Either way they apply straight away, with no redeploy need
 ## Troubleshooting
 - **"You need a workers.dev subdomain":** open **Workers & Pages** in the dashboard once
   and pick one, then run `npm run deploy` again.
+- **Don't like your subdomain** (the part before `.workers.dev`)? **Workers & Pages** →
+  **Change** next to **Your subdomain** (in the panel on the right). It renames the URL of
+  every Worker on your account, and the old URL stops working. Run `npm run deploy` to
+  print the new one.
+- **"error code: 1042" or the page won't load right after a first deploy or a subdomain
+  change:** Cloudflare is still setting it up. Wait a minute or two and reload.
 - **"name already taken" / wrong URL:** change `name` in `wrangler.toml` and redeploy.
 - **Dashboard loads without a login:** Access isn't on for workers.dev (step 2.2), or
   you're opening a different hostname from the one it printed.
