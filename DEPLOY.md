@@ -45,6 +45,40 @@ second address to protect.
 - On your phone: open the URL, sign in once, then "Add to Home Screen".
 - Using the weekly email? Put this URL in `worker/email/email.config.json` → `dashboardUrl`.
 
+## How safe is this?
+**What Access does:** Cloudflare checks every request before it reaches your Worker.
+Anyone without a valid login gets the Cloudflare sign-in page instead: not the dashboard,
+not `/api/*`, not your uploads. Knowing or guessing the URL doesn't help, because
+there's nothing behind the login screen to load until you've signed in.
+
+**How you sign in:** Cloudflare emails a one-time code to the address in the policy. Only
+someone who can read that inbox can get in, so **your dashboard is as safe as that email
+account**. Turn on two-step verification for it.
+
+**Your keys and data:**
+- API keys are encrypted Worker secrets. The browser never gets them; only the Worker
+  uses them. See `REAL-DATA.md` → "Where your keys live" for keeping them off your
+  computer (and away from AI tools) entirely.
+- Uploaded CSVs are stored as parsed rows in a private KV store in your Cloudflare
+  account. The raw file isn't kept.
+- The weekly email runs inside Cloudflare on its schedule, not through the website, so
+  Access doesn't apply to it and it doesn't need to. It only goes to the addresses in
+  `worker/email/email.config.json`.
+- Cloudflare hosts all of it, so it runs on Cloudflare's servers, the same as any site
+  they host.
+
+**Limits to know:**
+- **Access protects only the address you turned it on for** (your `workers.dev` URL). If
+  you later add a custom domain, or turn `preview_urls` back on in `wrangler.toml`, protect
+  those in Access too before putting real data behind them.
+- **If you ever turn Access off, the site is public at once**, real data included. The
+  Worker doesn't do its own login check.
+- Sign-ins last a while, so you don't type a code every visit. To change how long, go to
+  **Manage Cloudflare Access** (step 2) → your application → session duration. To see
+  who signed in, go to Zero Trust → **Logs → Access**.
+- Anyone you add to the policy sees everything on the dashboard. There are no per-person
+  views.
+
 ## Redeploy after changes
 ```bash
 npm run deploy
