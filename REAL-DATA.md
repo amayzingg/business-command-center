@@ -93,23 +93,43 @@ device, no keys needed.
 called a **KV store**, and links it to the Worker in `wrangler.toml`), then `npm run deploy`.
 
 Then click **Upload CSV** in the header and pick a bank statement, tasks, leads or invoices
-CSV. It works out the type from the column names (common variations like "Task", "Due
-Date" or "Company" are fine; dates as 2026-11-14 or 14/11/2026). It shows **"Looks like
-Tasks · 7 rows"** for you to confirm or change, then saves. If it can't tell, it says so and
-won't save until you pick a type that fits. Uploads replace that table on the dashboard and
-in the weekly email (live Stripe still wins for invoices). Remove one with the × on its
-chip. Only the parsed rows (for bank statements, the summary) are stored, behind your
-Access login. Example files: `data/templates/`. Add a new table type in
-`shared/datasets.js`.
+file. It works out the type from the column names. What it reads:
+- **CSV or Excel.** `.csv`, `.txt`, `.xlsx`, and the `.xls` "Excel" downloads most banks
+  give (usually a web page or text inside). A genuine old Excel 97 `.xls` can't be read:
+  the error says how to resave it as `.xlsx` or CSV.
+- **Any separator and encoding.** Commas, or the semicolons Excel uses in Portuguese,
+  Spanish, French, German and other languages; tabs; accented characters.
+- **Numbers and dates in your style.** `1,234.56`, `1.234,56`, `1 234,56`, `R$ 12,90`,
+  `(45.00)`; dates like `2026-11-14`, `14/11/2026`, `11/14/2026` or `14 Nov 2026`. It looks
+  at the whole column to decide, and the preview says how it read them (e.g.
+  *Numbers read as 1.234,56: "1.234,56" = 1234.56*), so check those lines.
+- **Column names in several languages** (e.g. Date / Data / Fecha, Amount / Valor / Betrag,
+  or separate Money in / Money out, Crédito / Débito columns), and account details above
+  the table are skipped.
+
+It shows **"Looks like Tasks · 7 rows"** for you to confirm or change, then saves. If it
+can't tell, it says which columns it found and won't save until you pick a type that fits.
+If your bank's file still isn't recognised, the quickest fix is to rename its date and
+amount columns to **Date** and **Amount** in Excel or Google Sheets and save as CSV; or ask
+your assistant to add your bank's column names to `COLUMNS` in `shared/bank.js`.
+Uploads replace that table on the dashboard and in the weekly email (live Stripe still
+wins for invoices). Remove one with the × on its chip. Only the parsed rows (for bank
+statements, the summary) are stored, behind your Access login. Example files:
+`data/templates/`. Add a new table type in `shared/datasets.js`.
+
+**On your computer** (`npm run dev` or `npm run dev:worker`), Upload CSV works before the
+one-time setup too: uploads are kept in memory until you stop the dev server, so you can
+try it safely. The deployed site needs the setup above.
 
 ## A. Bank statement CSV
 Easiest: **`/update-bank data/my-bank.csv`** (Claude Code) or **`$update-bank`** (Codex)
 does all of this for you. By hand:
-1. Export a CSV from your bank into `data/` (e.g. `data/my-bank.csv`). It's git-ignored,
-   so it stays on your machine.
+1. Export a CSV (or Excel `.xlsx`) from your bank into `data/` (e.g. `data/my-bank.csv`).
+   It's git-ignored, so it stays on your machine.
 2. `npm run import:bank -- data/my-bank.csv` writes `src/data/bank.json` (balance, monthly
-   in/out, spending by category). If your bank uses different column names, change
-   them at the top of `scripts/import-bank.mjs`.
+   in/out, spending by category) and prints how it read the columns, numbers and dates.
+   It reads files the same way as Upload CSV (above). If your bank uses column names it
+   doesn't know, add them to `COLUMNS` in `shared/bank.js`.
 3. The **Cash flow** widget shows it, with "Imported <date> from <file>". Then
    `npm run deploy` (it updates the dashboard and the weekly email).
 
@@ -256,6 +276,7 @@ already read**, so widgets never know where data came from.
 > `data` by file name, preferring `<name>.json` over `<name>.sample.json`; copy
 > `src/liveData.js` from `starter` and use its `{ data, refresh, refreshing }` with the
 > header's live-source chips and Refresh button; add the `CashFlow` widget and
-> `src/components/DataUpload.jsx` (in the header) from `starter`."
+> `src/components/DataUpload.jsx` (in the header) from `starter`, and add the
+> `devApi()` plugin from `worker/vite-dev.js` to vite.config.js like `starter` does."
 > To see exactly what `starter` has, run `git diff main starter -- package.json src/`.
 > Or switch to `starter`, where it's already done.
