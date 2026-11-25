@@ -29,8 +29,9 @@ npm run deploy              # put it online (after the setup in DEPLOY.md)
 
 ## Your data
 - **Upload a spreadsheet:** click **Upload CSV** at the top of your dashboard (bank
-  statement, tasks, leads or invoices). It works out which from the column names and
-  asks you to confirm. It's stored privately in your Cloudflare account and used right
+  statement, tasks, leads or invoices; CSV or Excel .xlsx, any language's number and date
+  style). It works out which from the column names, shows how it read the numbers and
+  dates, and asks you to confirm. It's stored privately in your Cloudflare account and used right
   away, with no redeploy. The × on an upload chip removes it again.
   One-time setup: ask *"Set up Upload CSV and put it online."*
 - **Bank statement your bank formats oddly:** `/update-bank data/my-bank.csv` (Claude Code)

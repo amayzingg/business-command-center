@@ -53,8 +53,10 @@ Working examples (bank CSV, Stripe test mode, weekly email) and a recipe for
 adding your own source are in `REAL-DATA.md`.
 - **Bank statement from the dashboard:** after `npm run setup:bank-store` and a deploy, use
   **Upload CSV** in the header on any device: bank statement, tasks, leads or invoices,
-  detected from the column names (templates in `data/templates/`). If your bank's columns differ, ask:
-  "My bank CSV has columns <paste the header row>. Update COLUMNS in shared/bank.js so
+  detected from the column names (templates in `data/templates/`). CSV or Excel (.xlsx), with
+  commas or semicolons, numbers like 1,234.56 or 1.234,56, and common column names in
+  several languages all work. If your bank's file still isn't recognised, ask:
+  "My bank CSV has columns <paste the header row>. Add them to COLUMNS in shared/bank.js so
   uploads and imports read it, then build and deploy."
 - **Bank statement:** export a CSV into `data/`, then run **`/update-bank data/my-bank.csv`**
   (Claude Code) or **`$update-bank`** (Codex). It imports the CSV, adapts the column mapping if

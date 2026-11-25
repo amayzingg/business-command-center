@@ -9,18 +9,20 @@ Bank data is private. **Never commit or push the CSV or `src/data/bank.json`** (
 git-ignored, so don't `git add -f` them, and don't paste transaction rows into chat
 beyond what's needed to confirm columns).
 
-1. **Find the file.** If no path was given, list `data/*.csv` (excluding `*.sample.csv`)
-   and ask which one. If the file is outside `data/`, suggest moving it into `data/`
-   (git-ignored) first. Check that `git check-ignore` confirms it's ignored.
-2. **Check the columns.** Read only the header row and the first data row. Compare with
-   `COLUMNS` in `shared/bank.js` (Date, Description, Category, Amount,
-   Balance; dates as YYYY-MM-DD; negative amounts = money out).
-   - If they differ (other names, separate Debit/Credit columns, DD/MM/YYYY dates, no
-     Category…), propose the exact change to `COLUMNS` (and, if needed, the parsing) in `shared/bank.js` and **ask the
-     user to confirm before editing**. Keep the change minimal and keep the output shape
-     of `bank.json` the same.
-3. **Import:** `npm run import:bank -- <path>`. Report the transaction count and date
-   range it prints. If it says no transactions were found, go back to step 2.
+1. **Find the file.** If no path was given, list `data/*.csv` and `data/*.xlsx` (excluding
+   `*.sample.csv`) and ask which one. If the file is outside `data/`, suggest moving it into
+   `data/` (git-ignored) first. Check that `git check-ignore` confirms it's ignored.
+2. **Import:** `npm run import:bank -- <path>`. It already handles CSV or `.xlsx`, `,`/`;`/tab
+   separators, Excel's Windows encoding, account details above the header row, common
+   column names in several languages (`COLUMNS` in `shared/bank.js`), separate money
+   in/out columns, numbers like `1.234,56` and DD/MM vs MM/DD dates. Report the
+   transaction count, date range and the "Columns used / Numbers read as / Dates read as"
+   lines it prints, and ask the user whether those look right.
+3. **If it fails or something was misread:** read only the header row and the first data
+   row. Propose the smallest fix, usually adding the bank's column names to the right list
+   in `COLUMNS` in `shared/bank.js` (or, if needed, the parsing in `shared/table.js`), and
+   **ask the user to confirm before editing**. Keep the output shape of `bank.json` the
+   same, then go back to step 2.
 4. **Build:** `npm run build`, and fix any errors.
 5. **Check in the browser:** run the dev server and confirm the **Cash flow** card shows
    the new balance, the right months and "Imported <date> from <file>" (not "Sample bank
