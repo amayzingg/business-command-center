@@ -2,55 +2,42 @@
 // Used by worker/api/uploads.js (and the weekly email reads what it stores).
 //
 // To support another table, add an entry to DATASETS: its columns (with alternative
-// header names people commonly use) and a `parse` that returns the value stored under
-// data[<key>]. Detection picks the dataset whose required columns all appear in the
-// header row, preferring the one that matches the most columns.
-import { parseCsv, summarizeBankCsv } from './bank.js'
+// header names people commonly use, in any language) and a `parse` that returns the value
+// stored under data[<key>]. Detection picks the dataset whose required columns all appear
+// in the header row, preferring the one that matches the most columns. Separators, number
+// styles and date order are worked out per file (shared/table.js).
+import { bankColumns, summarizeBankCsv } from './bank.js'
+import { dateReader, matchColumns, numberReader, readTable } from './table.js'
 
-const norm = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '')
-
-// A date as YYYY-MM-DD. Accepts YYYY-MM-DD, YYYY/MM/DD and DD/MM/YYYY (or DD.MM.YYYY),
-// and Google Sheets / Excel date serial numbers (days since 1899-12-30).
-export function toIsoDate(value) {
-  if (typeof value === 'number' && value > 20000 && value < 80000) {
-    return new Date(Date.UTC(1899, 11, 30) + Math.floor(value) * 86400000).toISOString().slice(0, 10)
-  }
-  const v = String(value ?? '').trim()
-  let m = v.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/)
-  if (m) return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`
-  m = v.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})$/)
-  if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`
-  return null
-}
-const toNumber = (v) => Number(String(v ?? '').replace(/[^0-9.-]/g, ''))
-const toBool = (v) => /^(true|yes|y|1|x|done|✓|✔)$/i.test(String(v ?? '').trim())
+const toBool = (v) => /^(true|yes|y|1|x|done|✓|✔|sim|s|si|sí|ja|oui|feito|concluído|concluido|hecho)$/i.test(String(v ?? '').trim())
 
 export const DATASETS = {
   bank: {
     label: 'Bank statement',
     widget: 'Cash flow',
-    required: { date: ['date', 'transaction date', 'booking date'], amount: ['amount', 'value'] },
-    optional: { description: ['description', 'details', 'memo'], balance: ['balance'], category: ['category'] },
-    // Bank parsing (and its COLUMNS mapping) lives in shared/bank.js.
+    // Bank columns (in several languages) and parsing live in shared/bank.js.
+    match: bankColumns,
     parse: (text, source) => {
       const bank = summarizeBankCsv(text, source)
-      return { value: bank, count: bank.transactions }
+      const { notes, ...value } = bank
+      return { value, count: bank.transactions, notes }
     },
   },
   tasks: {
     label: 'Tasks',
     widget: 'Tasks due this week',
-    required: { title: ['title', 'task', 'name', 'todo'], due: ['due', 'due date', 'deadline', 'date'] },
-    optional: { priority: ['priority'], done: ['done', 'completed', 'complete', 'status'], id: ['id'] },
-    parse: (rows) =>
+    required: {
+      title: ['title', 'task', 'name', 'todo', 'tarefa', 'tarea', 'tâche', 'aufgabe'],
+      due: ['due', 'due date', 'deadline', 'date', 'prazo', 'data limite', 'vencimento', 'fecha límite', 'échéance', 'fällig'],
+    },
+    optional: { priority: ['priority', 'prioridade', 'prioridad', 'priorité'], done: ['done', 'completed', 'complete', 'status', 'feito', 'concluído', 'estado'], id: ['id'] },
+    parse: (rows, { date }) =>
       rows
         .map((r, i) => ({
           id: r.id || `T-${i + 1}`,
           title: r.title,
-          due: toIsoDate(r.due),
-          priority: ['high', 'medium', 'low'].includes(String(r.priority).toLowerCase())
-            ? String(r.priority).toLowerCase()
-            : 'medium',
+          due: date(r.due),
+          priority: priority(r.priority),
           done: toBool(r.done),
         }))
         .filter((t) => t.title && t.due),
@@ -58,62 +45,68 @@ export const DATASETS = {
   leads: {
     label: 'Leads',
     widget: 'Leads pipeline',
-    required: { name: ['name', 'company', 'lead', 'client'], stage: ['stage', 'status'], value: ['value', 'amount', 'deal value'] },
-    optional: { source: ['source', 'channel'], lastContact: ['last contact', 'lastcontact', 'last contacted'], id: ['id'] },
-    parse: (rows) =>
+    required: {
+      name: ['name', 'company', 'lead', 'client', 'nome', 'empresa', 'cliente'],
+      stage: ['stage', 'status', 'fase', 'etapa', 'estado'],
+      value: ['value', 'amount', 'deal value', 'valor', 'montante'],
+    },
+    optional: { source: ['source', 'channel', 'origem', 'canal', 'origen'], lastContact: ['last contact', 'lastcontact', 'last contacted', 'último contacto', 'último contato'], id: ['id'] },
+    numbers: ['value'],
+    parse: (rows, { date, number }) =>
       rows
         .map((r, i) => ({
           id: r.id || `L-${i + 1}`,
           name: r.name,
           stage: String(r.stage).toLowerCase().trim(),
-          value: toNumber(r.value),
+          value: number(r.value),
           source: r.source ? String(r.source).toLowerCase() : 'other',
-          lastContact: toIsoDate(r.lastContact),
+          lastContact: date(r.lastContact),
         }))
         .filter((l) => l.name && l.stage && Number.isFinite(l.value)),
   },
   invoices: {
     label: 'Invoices',
     widget: 'Invoices',
-    required: { client: ['client', 'customer'], amount: ['amount', 'total'], due: ['due', 'due date'], status: ['status'] },
-    optional: { id: ['id', 'invoice', 'number', 'invoice number'], issued: ['issued', 'date', 'issue date'] },
-    parse: (rows) =>
+    required: {
+      client: ['client', 'customer', 'cliente'],
+      amount: ['amount', 'total', 'valor', 'montante', 'importe'],
+      due: ['due', 'due date', 'vencimento', 'data de vencimento', 'fecha de vencimiento'],
+      status: ['status', 'estado'],
+    },
+    optional: { id: ['id', 'invoice', 'number', 'invoice number', 'fatura', 'factura', 'número'], issued: ['issued', 'date', 'issue date', 'data', 'data de emissão', 'fecha'] },
+    numbers: ['amount'],
+    parse: (rows, { date, number }) =>
       rows
         .map((r, i) => ({
           id: r.id || `INV-${i + 1}`,
           client: r.client,
-          amount: toNumber(r.amount),
-          issued: toIsoDate(r.issued),
-          due: toIsoDate(r.due),
+          amount: number(r.amount),
+          issued: date(r.issued),
+          due: date(r.due),
           status: String(r.status).toLowerCase().trim(),
         }))
         .filter((inv) => inv.client && Number.isFinite(inv.amount) && inv.due),
   },
 }
 
+const PRIORITY = { high: 'high', alta: 'high', alto: 'high', haute: 'high', hoch: 'high', low: 'low', baixa: 'low', baja: 'low', basse: 'low', niedrig: 'low' }
+const priority = (v) => PRIORITY[String(v ?? '').toLowerCase().trim()] ?? 'medium'
+
 // Map a dataset's fields to this CSV's actual header names (or null if a required one is missing).
 function mapHeaders(def, headers) {
-  const byNorm = new Map(headers.map((h) => [norm(h), h]))
-  const find = (aliases) => aliases.map(norm).map((a) => byNorm.get(a)).find(Boolean)
-  const map = {}
-  for (const [field, aliases] of Object.entries(def.required)) {
-    const h = find(aliases)
-    if (!h) return null
-    map[field] = h
-  }
-  for (const [field, aliases] of Object.entries(def.optional ?? {})) {
-    const h = find(aliases)
-    if (h) map[field] = h
-  }
-  return map
+  if (def.match) return def.match(headers)
+  const map = matchColumns({ ...def.required, ...def.optional }, headers)
+  return Object.keys(def.required).every((f) => map[f]) ? map : null
 }
 
-// The header row's column names (parsed with the same CSV rules as the data).
-export function csvHeaders(text) {
-  const firstLine = String(text).replace(/^﻿/, '').split(/\r?\n/, 1)[0] ?? ''
-  const [row] = parseCsv(`${firstLine}\nx`)
-  return row ? Object.keys(row).filter(Boolean) : []
-}
+const matchesAny = (headers) => Object.values(DATASETS).some((def) => mapHeaders(def, headers))
+
+// The file's header row, its rows as objects, and its separator. The header row is the first
+// row (of the top 30) that some dataset recognises, so lines above it are skipped.
+export const readCsv = (text) => readTable(text, matchesAny)
+
+// The header row's column names.
+export const csvHeaders = (text) => readCsv(text).headers
 
 // Best-matching dataset key for these headers, or null.
 export function detectDataset(headers) {
@@ -127,30 +120,49 @@ export function detectDataset(headers) {
   return best?.key ?? null
 }
 
-// Parse a CSV as `key`. Returns { value, count } or throws with a helpful message.
+// Parse a CSV as `key`. Returns { value, count, notes } or throws with a helpful message.
 export function parseDataset(key, text, source) {
   const def = DATASETS[key]
   if (!def) throw new Error(`Unknown data type "${key}".`)
   if (key === 'bank') return def.parse(text, source)
 
-  return parseRecords(key, csvHeaders(text), parseCsv(text))
+  const { headers, records, delimiter } = readCsv(text)
+  return parseRecords(key, headers, records, { decimal: delimiter === ';' ? 'comma' : 'dot' })
 }
 
 // Same as parseDataset, for rows that are already objects keyed by header (e.g. a Google
-// Sheet tab). Returns { value, count } or throws with a helpful message.
-export function parseRecords(key, headers, records) {
+// Sheet tab). Returns { value, count, notes } or throws with a helpful message.
+export function parseRecords(key, headers, records, { decimal = 'dot' } = {}) {
   const def = DATASETS[key]
   const map = mapHeaders(def, headers)
   if (!map) {
-    const need = Object.values(def.required).map((a) => a[0])
-    throw new Error(`${def.label} need the columns ${need.join(', ')}. Found: ${headers.join(', ') || 'no header row'}.`)
+    const need = Object.values(def.required).map((a) => `"${a[0]}"`)
+    throw new Error(
+      `${def.label} need the columns ${need.join(', ')}. Found: ${headers.join(', ') || 'no header row'}. ` +
+        'Rename those columns in your spreadsheet, save it as CSV and try again.',
+    )
   }
   const rows = records.map((r) => Object.fromEntries(Object.entries(map).map(([field, h]) => [field, r[h]])))
-  const value = def.parse(rows)
+
+  // Decide date order and number style per file, from all its values.
+  const dateFields = ['due', 'issued', 'lastContact'].filter((f) => map[f])
+  const dates = dateReader(dateFields.flatMap((f) => rows.map((r) => r[f])))
+  const numFields = (def.numbers ?? []).filter((f) => map[f])
+  const nums = numberReader(numFields.flatMap((f) => rows.map((r) => r[f])), { fallback: decimal })
+
+  const value = def.parse(rows, { date: dates.read, number: nums.read })
   if (value.length === 0) {
     throw new Error(`No usable ${def.label.toLowerCase()} rows found. Check dates are like 2026-11-14 or 14/11/2026.`)
   }
-  return { value, count: value.length }
+  const notes = []
+  if (nums.example) notes.push(`Numbers read as ${nums.decimal === 'comma' ? '1.234,56' : '1,234.56'}: "${nums.example}" = ${nums.read(nums.example)}.`)
+  if (dates.example) {
+    notes.push(
+      `Dates read as ${dates.order === 'mdy' ? 'month/day/year' : 'day/month/year'}: "${dates.example}" = ${dates.read(dates.example)}` +
+        `${dates.guessed ? ' (a guess: no day above 12)' : ''}.`,
+    )
+  }
+  return { value, count: value.length, notes }
 }
 
 // Everything uploaded from the dashboard (stored in KV by worker/api/uploads.js), ready
